@@ -29,63 +29,63 @@ A Helm chart to install the SPIRE agent.
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| bundleConfigMap | string | `"spire-bundle"` |  |
-| clusterName | string | `"example-cluster"` |  |
-| configMap.annotations | object | `{}` | Annotations to add to the SPIRE Agent ConfigMap |
-| extraContainers | list | `[]` |  |
-| extraVolumeMounts | list | `[]` |  |
-| extraVolumes | list | `[]` |  |
-| fsGroupFix.image.pullPolicy | string | `"Always"` | The image pull policy |
-| fsGroupFix.image.registry | string | `"cgr.dev"` | The OCI registry to pull the image from |
-| fsGroupFix.image.repository | string | `"chainguard/bash"` | The repository within the registry |
-| fsGroupFix.image.tag | string | `"5.2.15"` | Overrides the image tag |
-| fsGroupFix.image.version | string | `""` | This value is deprecated in favor of tag. (Will be removed in a future release) |
-| fsGroupFix.resources | object | `{}` | Specify resource needs as per https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ |
-| fullnameOverride | string | `""` |  |
-| healthChecks.port | int | `9980` | override the host port used for health checking |
-| image.pullPolicy | string | `"IfNotPresent"` | The image pull policy |
 | image.registry | string | `"ghcr.io"` | The OCI registry to pull the image from |
 | image.repository | string | `"spiffe/spire-agent"` | The repository within the registry |
-| image.tag | string | `""` | Overrides the image tag whose default is the chart appVersion. |
+| image.pullPolicy | string | `"IfNotPresent"` | The image pull policy |
 | image.version | string | `""` | This value is deprecated in favor of tag. (Will be removed in a future release) |
+| image.tag | string | `""` | Overrides the image tag whose default is the chart appVersion. |
 | imagePullSecrets | list | `[]` |  |
-| initContainers | list | `[]` |  |
-| livenessProbe.initialDelaySeconds | int | `15` | Initial delay seconds for livenessProbe |
-| livenessProbe.periodSeconds | int | `60` | Period seconds for livenessProbe |
-| logLevel | string | `"info"` | The log level, valid values are "debug", "info", "warn", and "error" |
 | nameOverride | string | `""` |  |
 | namespaceOverride | string | `""` |  |
-| nodeSelector | object | `{}` |  |
+| fullnameOverride | string | `""` |  |
+| serviceAccount.create | bool | `true` | Specifies whether a service account should be created |
+| serviceAccount.annotations | object | `{}` | Annotations to add to the service account |
+| serviceAccount.name | string | `""` | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
+| configMap.annotations | object | `{}` | Annotations to add to the SPIRE Agent ConfigMap |
 | podAnnotations | object | `{}` |  |
 | podSecurityContext | object | `{}` |  |
-| priorityClassName | string | `""` | Priority class assigned to daemonset pods |
+| securityContext | object | `{}` |  |
+| resources | object | `{}` |  |
+| nodeSelector | object | `{}` |  |
+| tolerations | list | `[]` |  |
+| logLevel | string | `"info"` | The log level, valid values are "debug", "info", "warn", and "error" |
+| clusterName | string | `"example-cluster"` |  |
+| trustDomain | string | `"example.org"` | The trust domain to be used for the SPIFFE identifiers |
+| trustBundleURL | string | `""` | If set, obtain trust bundle from url instead of Kubernetes ConfigMap |
+| trustBundleFormat | string | `"pem"` | If using trustBundleURL, what format is the url. Choices are "pem" and "spiffe" |
+| bundleConfigMap | string | `"spire-bundle"` |  |
+| server.address | string | `""` |  |
+| server.port | int | `8081` |  |
+| server.namespaceOverride | string | `""` |  |
+| healthChecks.port | int | `9980` | override the host port used for health checking |
+| livenessProbe.initialDelaySeconds | int | `15` | Initial delay seconds for livenessProbe |
+| livenessProbe.periodSeconds | int | `60` | Period seconds for livenessProbe |
 | readinessProbe.initialDelaySeconds | int | `15` | Initial delay seconds for readinessProbe |
 | readinessProbe.periodSeconds | int | `60` | Period seconds for readinessProbe |
-| resources | object | `{}` |  |
-| securityContext | object | `{}` |  |
-| server.address | string | `""` |  |
-| server.namespaceOverride | string | `""` |  |
-| server.port | int | `8081` |  |
-| serviceAccount.annotations | object | `{}` | Annotations to add to the service account |
-| serviceAccount.create | bool | `true` | Specifies whether a service account should be created |
-| serviceAccount.name | string | `""` | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
-| socketPath | string | `"/run/spire/agent-sockets/spire-agent.sock"` | The unix socket path to the spire-agent |
-| telemetry.prometheus.enabled | bool | `false` |  |
-| telemetry.prometheus.podMonitor.enabled | bool | `false` |  |
-| telemetry.prometheus.podMonitor.labels | object | `{}` |  |
-| telemetry.prometheus.podMonitor.namespace | string | `""` | Override where to install the podMonitor, if not set will use the same namespace as the spire-agent |
-| telemetry.prometheus.port | int | `9988` |  |
-| tolerations | list | `[]` |  |
-| trustBundleFormat | string | `"pem"` | If using trustBundleURL, what format is the url. Choices are "pem" and "spiffe" |
-| trustBundleURL | string | `""` | If set, obtain trust bundle from url instead of Kubernetes ConfigMap |
-| trustDomain | string | `"example.org"` | The trust domain to be used for the SPIFFE identifiers |
-| waitForIt.image.pullPolicy | string | `"IfNotPresent"` | The image pull policy |
 | waitForIt.image.registry | string | `"cgr.dev"` | The OCI registry to pull the image from |
 | waitForIt.image.repository | string | `"chainguard/wait-for-it"` | The repository within the registry |
-| waitForIt.image.tag | string | `"latest-20230517"` | Overrides the image tag |
+| waitForIt.image.pullPolicy | string | `"IfNotPresent"` | The image pull policy |
 | waitForIt.image.version | string | `""` | This value is deprecated in favor of tag. (Will be removed in a future release) |
+| waitForIt.image.tag | string | `"latest-20230517"` | Overrides the image tag |
 | waitForIt.resources | object | `{}` |  |
-| workloadAttestors.k8s.skipKubeletVerification | bool | `true` | If true, kubelet certificate verification is skipped |
+| fsGroupFix.image.registry | string | `"cgr.dev"` | The OCI registry to pull the image from |
+| fsGroupFix.image.repository | string | `"chainguard/bash"` | The repository within the registry |
+| fsGroupFix.image.pullPolicy | string | `"Always"` | The image pull policy |
+| fsGroupFix.image.version | string | `""` | This value is deprecated in favor of tag. (Will be removed in a future release) |
+| fsGroupFix.image.tag | string | `"5.2.15"` | Overrides the image tag |
+| fsGroupFix.resources | object | `{}` | Specify resource needs as per https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ |
 | workloadAttestors.unix.enabled | bool | `false` | enables the Unix workload attestor |
+| workloadAttestors.k8s.skipKubeletVerification | bool | `true` | If true, kubelet certificate verification is skipped |
+| telemetry.prometheus.enabled | bool | `false` |  |
+| telemetry.prometheus.port | int | `9988` |  |
+| telemetry.prometheus.podMonitor.enabled | bool | `false` |  |
+| telemetry.prometheus.podMonitor.namespace | string | `""` | Override where to install the podMonitor, if not set will use the same namespace as the spire-agent |
+| telemetry.prometheus.podMonitor.labels | object | `{}` |  |
+| socketPath | string | `"/run/spire/agent-sockets/spire-agent.sock"` | The unix socket path to the spire-agent |
+| priorityClassName | string | `""` | Priority class assigned to daemonset pods |
+| extraVolumes | list | `[]` |  |
+| extraVolumeMounts | list | `[]` |  |
+| extraContainers | list | `[]` |  |
+| initContainers | list | `[]` |  |
 
 ----------------------------------------------
