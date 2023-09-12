@@ -89,576 +89,632 @@ Now you can interact with the Spire agent socket from your own application. The 
 
 ### Global parameters
 
-| Name                                    | Description                                                                                                | Value                        |
-| --------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ---------------------------- |
-| `global.k8s.clusterDomain`              | Cluster domain name configured for Spire install                                                           | `cluster.local`              |
-| `global.spire.bundleConfigMap`          | A configmap containing the Spire bundle                                                                    | `""`                         |
-| `global.spire.clusterName`              | The name of the k8s cluster for Spire install                                                              | `example-cluster`            |
-| `global.spire.jwtIssuer`                | The issuer for Spire JWT tokens                                                                            | `oidc-discovery.example.org` |
-| `global.spire.trustDomain`              | The trust domain for Spire install                                                                         | `example.org`                |
-| `global.spire.upstreamServerAddress`    | Set what address to use for the upstream server when using nested spire                                    | `""`                         |
-| `global.spire.image.registry`           | Override all Spire image registries at once                                                                | `""`                         |
-| `global.installAndUpgradeHooks.enabled` | Enable Helm hooks to autofix common install/upgrade issues (should be disabled when using `helm template`) | `true`                       |
-| `global.deleteHooks.enabled`            | Enable Helm hooks to autofix common delete issues (should be disabled when using `helm template`)          | `true`                       |
+| Name                                    | Description                                      | Value                        |
+| --------------------------------------- | ------------------------------------------------ | ---------------------------- |
+| `global.deleteHooks.enabled`            | Override flag for delete hooks                   | `true`                       |
+| `global.installAndUpgradeHooks.enabled` | Override flag for delete hooks                   | `true`                       |
+| `global.k8s.clusterDomain`              | Cluster domain name configured for Spire install | `cluster.local`              |
+| `global.spire.upstreamServerAddress`    | Address for upstream Spire instance              | `""`                         |
+| `global.spire.bundleConfigMap`          | A configmap containing the Spire bundle          | `""`                         |
+| `global.spire.clusterName`              | The name of the k8s cluster for Spire install    | `example-cluster`            |
+| `global.spire.image.registry`           | Image registry override                          | `""`                         |
+| `global.spire.jwtIssuer`                | The issuer for Spire JWT tokens                  | `oidc-discovery.example.org` |
+| `global.spire.trustDomain`              | The trust domain for Spire install               | `example.org`                |
 
 ### Spire server parameters
 
-| Name                                     | Description                                   | Value    |
-| ---------------------------------------- | --------------------------------------------- | -------- |
-| `spire-server.enabled`                   | Flag to enable Spire server                   | `true`   |
-| `spire-server.nameOverride`              | Overrides the name of Spire server pods       | `server` |
-| `spire-server.controllerManager.enabled` | Enable controller manager and provision CRD's | `true`   |
+| Name                                                                          | Description                                                                                                                                                                                                                                                       | Value                                                                                          |
+| ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `spire-server.enabled`                                                        | Flag to enable Spire server                                                                                                                                                                                                                                       | `true`                                                                                         |
+| `spire-server.fullnameOverride`                                               | Overrides the full name of Spire server pods                                                                                                                                                                                                                      | `""`                                                                                           |
+| `spire-server.nameOverride`                                                   | Overrides the name of Spire server pods                                                                                                                                                                                                                           | `server`                                                                                       |
+| `spire-server.namespaceOverride`                                              | Overrides the namespace where Spire server pods are installed                                                                                                                                                                                                     | `""`                                                                                           |
+| `spire-server.clusterName`                                                    | Cluster name configured for Spire servers                                                                                                                                                                                                                         | `example-cluster`                                                                              |
+| `spire-server.clusterDomain`                                                  | Cluster domain for Spire servers                                                                                                                                                                                                                                  | `cluster.local`                                                                                |
+| `spire-server.trustDomain`                                                    | Domain name for Spire server trust bundle                                                                                                                                                                                                                         | `example.org`                                                                                  |
+| `spire-server.bundleConfigMap`                                                | Config map name for Spire servers trust bundle                                                                                                                                                                                                                    | `spire-bundle`                                                                                 |
+| `spire-server.caKeyType`                                                      | Key type for certificate authority                                                                                                                                                                                                                                | `rsa-2048`                                                                                     |
+| `spire-server.caTTL`                                                          | TTL for certificate authority                                                                                                                                                                                                                                     | `24h`                                                                                          |
+| `spire-server.defaultJwtSvidTTL`                                              | Default TTL for JWT tokens issued by Spire                                                                                                                                                                                                                        | `1h`                                                                                           |
+| `spire-server.defaultX509SvidTTL`                                             | Default TTL for X509 tokens issued by Spire                                                                                                                                                                                                                       | `4h`                                                                                           |
+| `spire-server.jwtIssuer`                                                      | Issuer for JWT tokens                                                                                                                                                                                                                                             | `oidc-discovery.example.org`                                                                   |
+| `spire-server.logLevel`                                                       | Log level for Spire servers                                                                                                                                                                                                                                       | `info`                                                                                         |
+| `spire-server.replicaCount`                                                   | Replica count for Spire servers                                                                                                                                                                                                                                   | `1`                                                                                            |
+| `spire-server.global.deleteHooks.enabled`                                     | Override flag for delete hooks                                                                                                                                                                                                                                    | `true`                                                                                         |
+| `spire-server.global.installAndUpgradeHooks.enabled`                          | Override flag for install and upgrade hooks                                                                                                                                                                                                                       | `true`                                                                                         |
+| `spire-server.global.k8s.clusterDomain`                                       | Cluster domain name configured for Spire server                                                                                                                                                                                                                   | `cluster.local`                                                                                |
+| `spire-server.global.spire.bundleConfigMap`                                   | Bundle config map for Spire server                                                                                                                                                                                                                                | `""`                                                                                           |
+| `spire-server.global.spire.clusterName`                                       | The name of the k8s cluster for Spire server                                                                                                                                                                                                                      | `example-cluster`                                                                              |
+| `spire-server.global.spire.image.registry`                                    | Image registry for Spire server                                                                                                                                                                                                                                   | `""`                                                                                           |
+| `spire-server.global.spire.jwtIssuer`                                         | JWT Issuer configured for Spire server                                                                                                                                                                                                                            | `oidc-discovery.example.org`                                                                   |
+| `spire-server.global.spire.trustDomain`                                       | Trust domain name configured for Spire server                                                                                                                                                                                                                     | `example.org`                                                                                  |
+| `spire-server.global.spire.upstreamServerAddress`                             | Server address for upstream Spire server                                                                                                                                                                                                                          | `""`                                                                                           |
+| `spire-server.ca_subject.common_name`                                         | Common name for CA                                                                                                                                                                                                                                                | `example.org`                                                                                  |
+| `spire-server.ca_subject.country`                                             | Country for CA                                                                                                                                                                                                                                                    | `NL`                                                                                           |
+| `spire-server.ca_subject.organization`                                        | Organization for CA                                                                                                                                                                                                                                               | `Example`                                                                                      |
+| `spire-server.configMap.annotations`                                          | Annotations for Spire server configmap                                                                                                                                                                                                                            | `{}`                                                                                           |
+| `spire-server.controllerManager.deleteHook.enabled`                           | Override flag for delete hook                                                                                                                                                                                                                                     | `true`                                                                                         |
+| `spire-server.controllerManager.installAndUpgradeHook.enabled`                | Override flag for install and upgrade hooks                                                                                                                                                                                                                       | `true`                                                                                         |
+| `spire-server.controllerManager.enabled`                                      | Enable controller manager and provision CRD's                                                                                                                                                                                                                     | `true`                                                                                         |
+| `spire-server.controllerManager.configMap.annotations`                        |                                                                                                                                                                                                                                                                   | `{}`                                                                                           |
+| `spire-server.controllerManager.identities.enabled`                           | Create a Spire server entry                                                                                                                                                                                                                                       | `true`                                                                                         |
+| `spire-server.controllerManager.identities.dnsNameTemplates`                  | DNS name teamplates for Spire server entry                                                                                                                                                                                                                        | `[]`                                                                                           |
+| `spire-server.controllerManager.identities.federatesWith`                     | List of Spire servers for federation of entries                                                                                                                                                                                                                   | `[]`                                                                                           |
+| `spire-server.controllerManager.identities.namespaceSelector`                 | Namespace selector for Spire server entry                                                                                                                                                                                                                         | `{}`                                                                                           |
+| `spire-server.controllerManager.identities.podSelector`                       | Pod selector for Spire server setting                                                                                                                                                                                                                             | `{}`                                                                                           |
+| `spire-server.controllerManager.identities.spiffeIDTemplate`                  | Template for SPIFFE ID                                                                                                                                                                                                                                            | `spiffe://{{ .TrustDomain }}/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}` |
+| `spire-server.controllerManager.ignoreNamespaces`                             | Namespaces List of namespaces to ignore for Spire server entry                                                                                                                                                                                                    | `["kube-system","kube-public","local-path-storage"]`                                           |
+| `spire-server.controllerManager.image.pullPolicy`                             | Cluster pull policy                                                                                                                                                                                                                                               | `IfNotPresent`                                                                                 |
+| `spire-server.controllerManager.image.registry`                               | Registry for Spire controller manager images                                                                                                                                                                                                                      | `ghcr.io`                                                                                      |
+| `spire-server.controllerManager.image.repository`                             | Repository for the Spire controller manager image                                                                                                                                                                                                                 | `spiffe/spire-controller-manager`                                                              |
+| `spire-server.controllerManager.image.tag`                                    | Tag for Spire controller manager image                                                                                                                                                                                                                            | `0.2.3`                                                                                        |
+| `spire-server.controllerManager.image.version`                                | App version for Spire controller manager image                                                                                                                                                                                                                    | `""`                                                                                           |
+| `spire-server.controllerManager.resources`                                    | Resources request and limits for Spire controller manager                                                                                                                                                                                                         | `{}`                                                                                           |
+| `spire-server.controllerManager.securityContext`                              | Security contexts to be set at a pod level                                                                                                                                                                                                                        | `{}`                                                                                           |
+| `spire-server.controllerManager.service.annotations`                          | Annotations for service object                                                                                                                                                                                                                                    | `{}`                                                                                           |
+| `spire-server.controllerManager.service.port`                                 | Service port                                                                                                                                                                                                                                                      | `443`                                                                                          |
+| `spire-server.controllerManager.service.type`                                 | Service type                                                                                                                                                                                                                                                      | `ClusterIP`                                                                                    |
+| `spire-server.controllerManager.validatingWebhookConfiguration.failurePolicy` | Failure policy can be "Ignore" or "Fail"                                                                                                                                                                                                                          | `Fail`                                                                                         |
+| `spire-server.affinity`                                                       | Node affinity for Spire server pods                                                                                                                                                                                                                               | `{}`                                                                                           |
+| `spire-server.autoscaling.enabled`                                            | Enable horizontal pod autoscaling                                                                                                                                                                                                                                 | `false`                                                                                        |
+| `spire-server.autoscaling.maxReplicas`                                        | Maximum replicas for autoscaling                                                                                                                                                                                                                                  | `100`                                                                                          |
+| `spire-server.autoscaling.minReplicas`                                        | Minimum replicas for autoscaling                                                                                                                                                                                                                                  | `1`                                                                                            |
+| `spire-server.autoscaling.targetCPUUtilizationPercentage`                     | Target CPU utilization                                                                                                                                                                                                                                            | `80`                                                                                           |
+| `spire-server.dataStore.sql.databaseName`                                     | Database name                                                                                                                                                                                                                                                     | `spire`                                                                                        |
+| `spire-server.dataStore.sql.databaseType`                                     | Database type supported values "sqlite3", "mysql" or "postgres"                                                                                                                                                                                                   | `sqlite3`                                                                                      |
+| `spire-server.dataStore.sql.externalSecret.enabled`                           | Enable external secret for datastore creds                                                                                                                                                                                                                        | `false`                                                                                        |
+| `spire-server.dataStore.sql.externalSecret.key`                               | The key of the secret object whose value is the dataStore.sql password                                                                                                                                                                                            | `""`                                                                                           |
+| `spire-server.dataStore.sql.externalSecret.name`                              | The name of the secret                                                                                                                                                                                                                                            | `""`                                                                                           |
+| `spire-server.dataStore.sql.host`                                             | Hostname for datastore                                                                                                                                                                                                                                            | `""`                                                                                           |
+| `spire-server.dataStore.sql.port`                                             | Port for datastore                                                                                                                                                                                                                                                | `0`                                                                                            |
+| `spire-server.dataStore.sql.options`                                          | Options specific to datastore                                                                                                                                                                                                                                     | `[]`                                                                                           |
+| `spire-server.dataStore.sql.username`                                         | Username for datastore                                                                                                                                                                                                                                            | `spire`                                                                                        |
+| `spire-server.dataStore.sql.password`                                         | Password for datastore                                                                                                                                                                                                                                            | `""`                                                                                           |
+| `spire-server.dataStore.sql.plugin_data`                                      | Additional configuration for the datastore Spire server plugin                                                                                                                                                                                                    | `{}`                                                                                           |
+| `spire-server.initContainers`                                                 | Init container definitions for Spire server pods                                                                                                                                                                                                                  | `[]`                                                                                           |
+| `spire-server.extraContainers`                                                | Additional container definitions to run alongside Spire server                                                                                                                                                                                                    | `[]`                                                                                           |
+| `spire-server.extraVolumes`                                                   | Additional volumes to attach to Spire server pods                                                                                                                                                                                                                 | `[]`                                                                                           |
+| `spire-server.extraVolumeMounts`                                              | Additional volume mounts for Spire server container                                                                                                                                                                                                               | `[]`                                                                                           |
+| `spire-server.federation.enabled`                                             | Enable federation for Spire server                                                                                                                                                                                                                                | `false`                                                                                        |
+| `spire-server.federation.bundleEndpoint.address`                              | Address for bundle endpoint for federation                                                                                                                                                                                                                        | `0.0.0.0`                                                                                      |
+| `spire-server.federation.bundleEndpoint.port`                                 | Port for bundle endpoint for federation                                                                                                                                                                                                                           | `8443`                                                                                         |
+| `spire-server.federation.ingress.enabled`                                     | Enable ingress for Spire server                                                                                                                                                                                                                                   | `false`                                                                                        |
+| `spire-server.federation.ingress.className`                                   | Ingress class name                                                                                                                                                                                                                                                | `""`                                                                                           |
+| `spire-server.federation.ingress.annotations`                                 | Annotations for ingress object                                                                                                                                                                                                                                    | `{}`                                                                                           |
+| `spire-server.federation.ingress.hosts`                                       | List of hosts configured for ingress with path                                                                                                                                                                                                                    | `[]`                                                                                           |
+| `spire-server.federation.ingress.tls`                                         | List of tls secrets for ingress                                                                                                                                                                                                                                   | `[]`                                                                                           |
+| `spire-server.image.pullPolicy`                                               | Cluster pull policy                                                                                                                                                                                                                                               | `IfNotPresent`                                                                                 |
+| `spire-server.image.registry`                                                 | Registry for Spire server images                                                                                                                                                                                                                                  | `ghcr.io`                                                                                      |
+| `spire-server.image.repository`                                               | Repository for the Spire server image                                                                                                                                                                                                                             | `spiffe/spire-server`                                                                          |
+| `spire-server.image.tag`                                                      | Tag for Spire server image                                                                                                                                                                                                                                        | `""`                                                                                           |
+| `spire-server.image.version`                                                  | App version for Spire server image                                                                                                                                                                                                                                | `""`                                                                                           |
+| `spire-server.imagePullSecrets`                                               | Pull secrets for authenticated registries                                                                                                                                                                                                                         | `[]`                                                                                           |
+| `spire-server.ingress.enabled`                                                | Enable ingress for Spire server                                                                                                                                                                                                                                   | `false`                                                                                        |
+| `spire-server.ingress.className`                                              | Ingress class name                                                                                                                                                                                                                                                | `""`                                                                                           |
+| `spire-server.ingress.annotations`                                            | Annotations for ingress object                                                                                                                                                                                                                                    | `{}`                                                                                           |
+| `spire-server.ingress.hosts`                                                  | List of hosts configured for ingress with path                                                                                                                                                                                                                    | `[]`                                                                                           |
+| `spire-server.ingress.tls`                                                    | List of tls secrets for ingress                                                                                                                                                                                                                                   | `[]`                                                                                           |
+| `spire-server.livenessProbe.failureThreshold`                                 | Failure threshold for pod liveness probe                                                                                                                                                                                                                          | `2`                                                                                            |
+| `spire-server.livenessProbe.initialDelaySeconds`                              | Initial delay in seconds for pod liveness probe                                                                                                                                                                                                                   | `15`                                                                                           |
+| `spire-server.livenessProbe.periodSeconds`                                    | Period in seconds for pod liveness probe                                                                                                                                                                                                                          | `60`                                                                                           |
+| `spire-server.livenessProbe.timeoutSeconds`                                   | Timeout in seconds for pod liveness probe                                                                                                                                                                                                                         | `3`                                                                                            |
+| `spire-server.readinessProbe.initialDelaySeconds`                             | Initial delay in seconds for pod readiness probe                                                                                                                                                                                                                  | `5`                                                                                            |
+| `spire-server.readinessProbe.periodSeconds`                                   | Health check period in seconds for pod readiness probe                                                                                                                                                                                                            | `5`                                                                                            |
+| `spire-server.nodeSelector`                                                   | Nodeselector details for Spire server pods                                                                                                                                                                                                                        | `{}`                                                                                           |
+| `spire-server.nodeAttestor.k8sPsat.enabled`                                   | Enable Spire server nodeattestor plugin using k8sPsat                                                                                                                                                                                                             | `true`                                                                                         |
+| `spire-server.nodeAttestor.k8sPsat.serviceAccountAllowList`                   | List of service accounts allowed for k8sPsat                                                                                                                                                                                                                      | `[]`                                                                                           |
+| `spire-server.notifier.k8sbundle.namespace`                                   | Namespace for notifier to push CA bundle                                                                                                                                                                                                                          | `""`                                                                                           |
+| `spire-server.persistence.accessMode`                                         | Access mode of underlying PV                                                                                                                                                                                                                                      | `ReadWriteOnce`                                                                                |
+| `spire-server.persistence.hostPath`                                           | Hostpath of the PV                                                                                                                                                                                                                                                | `""`                                                                                           |
+| `spire-server.persistence.size`                                               | Size of underlying PVC                                                                                                                                                                                                                                            | `1Gi`                                                                                          |
+| `spire-server.persistence.type`                                               | Type of the volume                                                                                                                                                                                                                                                | `pvc`                                                                                          |
+| `spire-server.podAnnotations`                                                 | Annotations to be added at a pod level                                                                                                                                                                                                                            | `{}`                                                                                           |
+| `spire-server.podSecurityContext`                                             | Security contexts to be set at a container level                                                                                                                                                                                                                  | `{}`                                                                                           |
+| `spire-server.resources`                                                      | Resources request and limits for Spire server                                                                                                                                                                                                                     | `{}`                                                                                           |
+| `spire-server.securityContext`                                                | Security contexts to be set at a pod level                                                                                                                                                                                                                        | `{}`                                                                                           |
+| `spire-server.service.annotations`                                            | Annotations for service object                                                                                                                                                                                                                                    | `{}`                                                                                           |
+| `spire-server.service.port`                                                   | Service port                                                                                                                                                                                                                                                      | `8081`                                                                                         |
+| `spire-server.service.type`                                                   | Service type                                                                                                                                                                                                                                                      | `ClusterIP`                                                                                    |
+| `spire-server.serviceAccount.create`                                          | Flag for service account creation                                                                                                                                                                                                                                 | `true`                                                                                         |
+| `spire-server.serviceAccount.name`                                            | Name of service account for Spire server                                                                                                                                                                                                                          | `""`                                                                                           |
+| `spire-server.serviceAccount.annotations`                                     | Annotations to be added to service account                                                                                                                                                                                                                        | `{}`                                                                                           |
+| `spire-server.telemetry.prometheus.enabled`                                   | Flag to enable prometheus monitoring                                                                                                                                                                                                                              | `false`                                                                                        |
+| `spire-server.telemetry.prometheus.podMonitor.enabled`                        | Flag for enabling podMonitor                                                                                                                                                                                                                                      | `false`                                                                                        |
+| `spire-server.telemetry.prometheus.podMonitor.namespace`                      | Namespace for podMonitor                                                                                                                                                                                                                                          | `""`                                                                                           |
+| `spire-server.telemetry.prometheus.podMonitor.labels`                         | Labels for podMonitor                                                                                                                                                                                                                                             | `{}`                                                                                           |
+| `spire-server.tests.bash.image.pullPolicy`                                    | Cluster pull policy                                                                                                                                                                                                                                               | `IfNotPresent`                                                                                 |
+| `spire-server.tests.bash.image.registry`                                      | Registry for testing bash image                                                                                                                                                                                                                                   | `cgr.dev`                                                                                      |
+| `spire-server.tests.bash.image.repository`                                    | Repository for testing bash image                                                                                                                                                                                                                                 | `chainguard/bash`                                                                              |
+| `spire-server.tests.bash.image.tag`                                           | Tag for testing bash image                                                                                                                                                                                                                                        | `5.2.15`                                                                                       |
+| `spire-server.tests.bash.image.version`                                       | App version for testing bash image                                                                                                                                                                                                                                | `""`                                                                                           |
+| `spire-server.tests.bash.hostAliases`                                         | List of host aliases for testing                                                                                                                                                                                                                                  | `[]`                                                                                           |
+| `spire-server.tests.tls.enabled`                                              | Flag for enabling tls for testing                                                                                                                                                                                                                                 | `false`                                                                                        |
+| `spire-server.tests.tls.customCA`                                             | CustomCA for testing with tls                                                                                                                                                                                                                                     | `""`                                                                                           |
+| `spire-server.tolerations`                                                    | Specifies pod tolerations                                                                                                                                                                                                                                         | `[]`                                                                                           |
+| `spire-server.tools.kubectl.image.pullPolicy`                                 | Cluster pull policy                                                                                                                                                                                                                                               | `IfNotPresent`                                                                                 |
+| `spire-server.tools.kubectl.image.registry`                                   | Registry for kubectl image                                                                                                                                                                                                                                        | `docker.io`                                                                                    |
+| `spire-server.tools.kubectl.image.repository`                                 | Repository for kubectl image                                                                                                                                                                                                                                      | `rancher/kubectl`                                                                              |
+| `spire-server.tools.kubectl.image.tag`                                        | Tag for kubectl image                                                                                                                                                                                                                                             | `""`                                                                                           |
+| `spire-server.tools.kubectl.image.version`                                    | App version for kubectl image                                                                                                                                                                                                                                     | `""`                                                                                           |
+| `spire-server.topologySpreadConstraints`                                      | Specifies topology spread constraints for pod scheduling                                                                                                                                                                                                          | `[]`                                                                                           |
+| `spire-server.tornjak.enabled`                                                | Flag to enable tornjak on the server side                                                                                                                                                                                                                         | `false`                                                                                        |
+| `spire-server.tornjak.config.dataStore.driver`                                | Tornjak datastore driver                                                                                                                                                                                                                                          | `sqlite3`                                                                                      |
+| `spire-server.tornjak.config.dataStore.file`                                  | File path for datastore plugin                                                                                                                                                                                                                                    | `/run/spire/data/tornjak.sqlite3`                                                              |
+| `spire-server.tornjak.config.clientCA.name`                                   | Name of the resource secret or configMap with user CA for TLS                                                                                                                                                                                                     | `tornjak-client-ca`                                                                            |
+| `spire-server.tornjak.config.clientCA.type`                                   | Type of delivery for the user CA for TLS client verification. Options are `Secret` or `ConfigMap` (required for `mtls` connectionType)                                                                                                                            | `Secret`                                                                                       |
+| `spire-server.tornjak.config.tlsSecret`                                       | Name of the secret containing server side key and certificate for TLS verification (required for `tls` or `mtls` connectionType)                                                                                                                                  | `tornjak-tls-secret`                                                                           |
+| `spire-server.tornjak.image.pullPolicy`                                       | Cluster pull policy                                                                                                                                                                                                                                               | `IfNotPresent`                                                                                 |
+| `spire-server.tornjak.image.registry`                                         | Registry for Tornjak image                                                                                                                                                                                                                                        | `ghcr.io`                                                                                      |
+| `spire-server.tornjak.image.repository`                                       | Repository for Tornjak image                                                                                                                                                                                                                                      | `spiffe/tornjak-backend`                                                                       |
+| `spire-server.tornjak.image.tag`                                              | Tag for Tornjak image                                                                                                                                                                                                                                             | `v1.2.2`                                                                                       |
+| `spire-server.tornjak.image.version`                                          | App version for Tornjak image                                                                                                                                                                                                                                     | `""`                                                                                           |
+| `spire-server.tornjak.resources`                                              | Resources request and limits for Tornjak image                                                                                                                                                                                                                    | `{}`                                                                                           |
+| `spire-server.tornjak.service.annotations`                                    | Annotations for the service                                                                                                                                                                                                                                       | `{}`                                                                                           |
+| `spire-server.tornjak.service.ports.http`                                     | Insecure port for tornjak service                                                                                                                                                                                                                                 | `10000`                                                                                        |
+| `spire-server.tornjak.service.ports.https`                                    | Secure port for tornjak service                                                                                                                                                                                                                                   | `10443`                                                                                        |
+| `spire-server.tornjak.service.type`                                           | Type of service resource                                                                                                                                                                                                                                          | `ClusterIP`                                                                                    |
+| `spire-server.tornjak.startupProbe.initialDelaySeconds`                       | Initial delay in seconds for pod startup probe                                                                                                                                                                                                                    | `5`                                                                                            |
+| `spire-server.tornjak.startupProbe.periodSeconds`                             | Period in seconds for pod startup probe                                                                                                                                                                                                                           | `10`                                                                                           |
+| `spire-server.tornjak.startupProbe.timeoutSeconds`                            | Timeout in seconds for pod startup probe                                                                                                                                                                                                                          | `5`                                                                                            |
+| `spire-server.tornjak.startupProbe.successThreshold`                          | Success threshold for pod startup probe                                                                                                                                                                                                                           | `1`                                                                                            |
+| `spire-server.tornjak.startupProbe.failureThreshold`                          | Failure threshold for pod startup probe                                                                                                                                                                                                                           | `3`                                                                                            |
+| `spire-server.unsupportedBuiltInPlugins.keyManager`                           | Configuration for key manager plugin                                                                                                                                                                                                                              | `{}`                                                                                           |
+| `spire-server.unsupportedBuiltInPlugins.nodeAttestor`                         | Configuration for node attestor plugin                                                                                                                                                                                                                            | `{}`                                                                                           |
+| `spire-server.unsupportedBuiltInPlugins.notifier`                             | Configuration for notifier plugin                                                                                                                                                                                                                                 | `{}`                                                                                           |
+| `spire-server.unsupportedBuiltInPlugins.upstreamAuthority`                    | Configuration for upstream authority plugin                                                                                                                                                                                                                       | `{}`                                                                                           |
+| `spire-server.upstreamAuthority.certManager.enabled`                          | Flag to enable cert manager upstream authority                                                                                                                                                                                                                    | `false`                                                                                        |
+| `spire-server.upstreamAuthority.certManager.issuer_group`                     | Issuer group for cert manager                                                                                                                                                                                                                                     | `cert-manager.io`                                                                              |
+| `spire-server.upstreamAuthority.certManager.issuer_kind`                      | Issuer kind for cert manager                                                                                                                                                                                                                                      | `Issuer`                                                                                       |
+| `spire-server.upstreamAuthority.certManager.issuer_name`                      | Name of cert issuer                                                                                                                                                                                                                                               | `""`                                                                                           |
+| `spire-server.upstreamAuthority.certManager.kube_config_file`                 | K8s configuration to connect to API server                                                                                                                                                                                                                        | `""`                                                                                           |
+| `spire-server.upstreamAuthority.certManager.namespace`                        | Namespace for cert manager                                                                                                                                                                                                                                        | `""`                                                                                           |
+| `spire-server.upstreamAuthority.certManager.ca.create`                        | Flag to enable cert manager upstream CA                                                                                                                                                                                                                           | `false`                                                                                        |
+| `spire-server.upstreamAuthority.certManager.ca.duration`                      | Duration                                                                                                                                                                                                                                                          | `87600h`                                                                                       |
+| `spire-server.upstreamAuthority.certManager.ca.privateKey.algorithm`          | issuer_kind Issuer kind for cert manager                                                                                                                                                                                                                          | `ECDSA`                                                                                        |
+| `spire-server.upstreamAuthority.certManager.ca.privateKey.rotationPolicy`     | Name of cert issuer                                                                                                                                                                                                                                               | `""`                                                                                           |
+| `spire-server.upstreamAuthority.certManager.ca.privateKey.size`               | K8s configuration to connect to API server                                                                                                                                                                                                                        | `256`                                                                                          |
+| `spire-server.upstreamAuthority.certManager.ca.renewBefore`                   | Namespace for cert manager                                                                                                                                                                                                                                        | `""`                                                                                           |
+| `spire-server.upstreamAuthority.certManager.rbac.create`                      | Flag for creation of cert manager RBAC role                                                                                                                                                                                                                       | `true`                                                                                         |
+| `spire-server.upstreamAuthority.disk.enabled`                                 | Flag for disk upstream authority plugin                                                                                                                                                                                                                           | `false`                                                                                        |
+| `spire-server.upstreamAuthority.disk.secret.create`                           | Create secret to hold CA                                                                                                                                                                                                                                          | `true`                                                                                         |
+| `spire-server.upstreamAuthority.disk.secret.name`                             | Name for secret                                                                                                                                                                                                                                                   | `spiffe-upstream-ca`                                                                           |
+| `spire-server.upstreamAuthority.disk.secret.data.bundle`                      | Data bundle for disk upstream authority                                                                                                                                                                                                                           | `""`                                                                                           |
+| `spire-server.upstreamAuthority.disk.secret.data.certificate`                 | Certificate for disk upstream authority                                                                                                                                                                                                                           | `""`                                                                                           |
+| `spire-server.upstreamAuthority.disk.secret.data.key`                         | Key for disk upstream authority                                                                                                                                                                                                                                   | `""`                                                                                           |
+| `spire-server.upstreamAuthority.awsPCA.enabled`                               | Flag to enable upstream authority plugin with AWS PCA                                                                                                                                                                                                             | `false`                                                                                        |
+| `spire-server.upstreamAuthority.awsPCA.region`                                | AWS Region to use                                                                                                                                                                                                                                                 | `""`                                                                                           |
+| `spire-server.upstreamAuthority.awsPCA.endpoint`                              | Endpoint as hostname or fully-qualified URI that overrides the default endpoint. See AWS SDK Config docs (https://docs.aws.amazon.com/sdk-for-go/api/aws/#Config) for more information                                                                            | `""`                                                                                           |
+| `spire-server.upstreamAuthority.awsPCA.assumeRoleARN`                         | ARN of an IAM role to assume                                                                                                                                                                                                                                      | `""`                                                                                           |
+| `spire-server.upstreamAuthority.awsPCA.caSigningTemplateARN`                  | ARN of the signing template to use for the server's CA. Defaults to a signing template for end-entity certificates only. See Using Templates (https://docs.aws.amazon.com/acm-pca/latest/userguide/UsingTemplates.html) for possible values                       | `""`                                                                                           |
+| `spire-server.upstreamAuthority.awsPCA.certificateAuthorityARN`               | ARN of the "upstream" CA certificate                                                                                                                                                                                                                              | `""`                                                                                           |
+| `spire-server.upstreamAuthority.awsPCA.signingAlgorithm`                      | Signing algorithm to use for the server's CA. Defaults to the CA's default. See Issue Certificate (https://docs.aws.amazon.com/cli/latest/reference/acm-pca/issue-certificate.html) for possible values                                                           | `""`                                                                                           |
+| `spire-server.upstreamAuthority.awsPCA.supplementalBundlePath`                | Path to a file containing PEM-encoded CA certificates that should be additionally included in the bundle                                                                                                                                                          | `""`                                                                                           |
+| `spire-server.upstreamAuthority.spire.enabled`                                | Flag for Spire upstream authority plugin                                                                                                                                                                                                                          | `false`                                                                                        |
+| `spire-server.upstreamAuthority.spire.upstreamDriver`                         | Driver for Spire as upstream CA                                                                                                                                                                                                                                   | `""`                                                                                           |
+| `spire-server.upstreamAuthority.spire.server.address`                         | Address for Spire server                                                                                                                                                                                                                                          | `""`                                                                                           |
+| `spire-server.upstreamAuthority.spire.server.port`                            | Port for Spire server                                                                                                                                                                                                                                             | `8081`                                                                                         |
+| `spire-server.keyManager.awsKMS.enabled`                                      | Flag to enable AWS KMS as key manager                                                                                                                                                                                                                             | `false`                                                                                        |
+| `spire-server.keyManager.awsKMS.region`                                       | Specify the region for AWS KMS                                                                                                                                                                                                                                    | `""`                                                                                           |
+| `spire-server.keyManager.awsKMS.accessKeyID`                                  | Access key ID for the AWS account. It's recommended to use an IAM role instead. See [here](https://docs.aws.amazon.com/eks/latest/userguide/associate-service-account-role.html) to learn how to annotate your SPIRE Server Service Account to assume an IAM role | `""`                                                                                           |
+| `spire-server.keyManager.awsKMS.secretAccessKey`                              | Secret access key for the AWS account                                                                                                                                                                                                                             | `""`                                                                                           |
+| `spire-server.keyManager.awsKMS.keyPolicy.policy`                             | Key policy in JSON format                                                                                                                                                                                                                                         | `""`                                                                                           |
+| `spire-server.keyManager.awsKMS.keyPolicy.existingConfigMap`                  | Name of a ConfigMap that has a `policy.json` file with the key policy in JSON format                                                                                                                                                                              | `""`                                                                                           |
+| `spire-server.keyManager.disk.enabled`                                        | Flag to enable keyManager on disk                                                                                                                                                                                                                                 | `true`                                                                                         |
+| `spire-server.keyManager.memory.enabled`                                      | Flag to enable keyManager in memory                                                                                                                                                                                                                               | `false`                                                                                        |
+| `spire-server.customPlugins.keyManager`                                       | Configuration for key manager custom plugin                                                                                                                                                                                                                       | `{}`                                                                                           |
+| `spire-server.customPlugins.nodeAttestor`                                     | Configuration for node attestor custom plugin                                                                                                                                                                                                                     | `{}`                                                                                           |
+| `spire-server.customPlugins.notifier`                                         | Configuration for notifier custom plugin                                                                                                                                                                                                                          | `{}`                                                                                           |
+| `spire-server.customPlugins.upstreamAuthority`                                | Configuration for upstream authority custom plugin                                                                                                                                                                                                                | `{}`                                                                                           |
 
 ### Spire agent parameters
 
-| Name                       | Description                            | Value   |
-| -------------------------- | -------------------------------------- | ------- |
-| `spire-agent.enabled`      | Flag to enable Spire agent             | `true`  |
-| `spire-agent.nameOverride` | Overrides the name of Spire agent pods | `agent` |
-
-### Upstream Spire agent and CSI driver configuration
-
-| Name               | Description                                                | Value   |
-| ------------------ | ---------------------------------------------------------- | ------- |
-| `upstream.enabled` | Enable upstream agent and driver for use with nested spire | `false` |
-
-### Upstream Spire agent parameters
-
-| Name                                             | Description                                        | Value                                                |
-| ------------------------------------------------ | -------------------------------------------------- | ---------------------------------------------------- |
-| `upstream-spire-agent.upstream`                  | Flag for enabling upstream Spire agent             | `true`                                               |
-| `upstream-spire-agent.nameOverride`              | Name override for upstream Spire agent             | `agent-upstream`                                     |
-| `upstream-spire-agent.bundleConfigMap`           | The configmap name for upstream Spire agent bundle | `spire-bundle-upstream`                              |
-| `upstream-spire-agent.socketPath`                | Socket path where Spire agent socket is mounted    | `/run/spire/agent-sockets-upstream/spire-agent.sock` |
-| `upstream-spire-agent.serviceAccount.name`       | Service account name for upstream Spire agent      | `spire-agent-upstream`                               |
-| `upstream-spire-agent.healthChecks.port`         | Health check port number for upstream Spire agent  | `9981`                                               |
-| `upstream-spire-agent.telemetry.prometheus.port` | The port where prometheus metrics are available    | `9989`                                               |
+| Name                                                          | Description                                                                         | Value                                       |
+| ------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ------------------------------------------- |
+| `spire-agent.enabled`                                         | Flag to enable Spire agent                                                          | `true`                                      |
+| `spire-agent.hostAliases`                                     | List of host aliases for Spire agent                                                | `[]`                                        |
+| `spire-agent.upstream`                                        | Flag for whether upstream agent is enabled                                          | `false`                                     |
+| `spire-agent.fullnameOverride`                                | Overrides the full name of Spire agent pods                                         | `""`                                        |
+| `spire-agent.nameOverride`                                    | Overrides the name of Spire agent pods                                              | `agent`                                     |
+| `spire-agent.namespaceOverride`                               | Overrides the namespace where Spire agent pods are installed                        | `""`                                        |
+| `spire-agent.clusterName`                                     | Cluster name configured for Spire agents                                            | `example-cluster`                           |
+| `spire-agent.trustBundleURL`                                  | URL for Spire agent trust bundle for federation                                     | `""`                                        |
+| `spire-agent.trustBundleFormat`                               | If using trustBundleURL, what format is the url. Choices are "pem" and "spiffe"     | `pem`                                       |
+| `spire-agent.trustDomain`                                     | Domain name for Spire agent trust bundle                                            | `example.org`                               |
+| `spire-agent.bundleConfigMap`                                 | Config map name for Spire agent trust bundle                                        | `spire-bundle`                              |
+| `spire-agent.socketPath`                                      | Path for Spire agent socket                                                         | `/run/spire/agent-sockets/spire-agent.sock` |
+| `spire-agent.logLevel`                                        | Log level set for Spire agents                                                      | `info`                                      |
+| `spire-agent.global.deleteHooks.enabled`                      | Override flag for delete hooks                                                      | `true`                                      |
+| `spire-agent.global.installAndUpgradeHooks.enabled`           | Override flag for install and upgrade hooks                                         | `true`                                      |
+| `spire-agent.global.k8s.clusterDomain`                        | Cluster domain name configured for Spire agent                                      | `cluster.local`                             |
+| `spire-agent.global.spire.bundleConfigMap`                    | Spire bundle config map for Spire agent                                             | `""`                                        |
+| `spire-agent.global.spire.clusterName`                        | The name of the k8s cluster for Spire agent                                         | `example-cluster`                           |
+| `spire-agent.global.spire.image.registry`                     | Image registry for Spire agent                                                      | `""`                                        |
+| `spire-agent.global.spire.jwtIssuer`                          | JWT Issuer configured for Spire agent                                               | `oidc-discovery.example.org`                |
+| `spire-agent.global.spire.trustDomain`                        | Trust domain name configured for Spire agent                                        | `example.org`                               |
+| `spire-agent.global.spire.upstreamServerAddress`              | Upstream server address for Spire                                                   | `""`                                        |
+| `spire-agent.configMap.annotations`                           |                                                                                     | `{}`                                        |
+| `spire-agent.initContainers`                                  | Init container definitions for Spire agent pods                                     | `[]`                                        |
+| `spire-agent.extraContainers`                                 | Additional container definitions to run alongside Spire agent                       | `[]`                                        |
+| `spire-agent.extraVolumes`                                    | Additional volumes to attach to Spire agent pods                                    | `[]`                                        |
+| `spire-agent.extraVolumeMounts`                               | Additional volume mounts for Spire agent container                                  | `[]`                                        |
+| `spire-agent.fsGroupFix.image.pullPolicy`                     | Image pull policy                                                                   | `Always`                                    |
+| `spire-agent.fsGroupFix.image.registry`                       | Registry for bash images to run fs group command                                    | `cgr.dev`                                   |
+| `spire-agent.fsGroupFix.image.repository`                     | Repository for the bash images to run fs group command                              | `chainguard/bash`                           |
+| `spire-agent.fsGroupFix.image.tag`                            | Tag for bash images to run fs group command                                         | `5.2.15`                                    |
+| `spire-agent.fsGroupFix.image.version`                        | App version for bash images to run fs group command                                 | `""`                                        |
+| `spire-agent.fsGroupFix.resources`                            | Resources request and limits for fs group command pod                               | `{}`                                        |
+| `spire-agent.healthChecks.port`                               | Port for Spire agent pods health check                                              | `9980`                                      |
+| `spire-agent.image.pullPolicy`                                | Image pull policy                                                                   | `IfNotPresent`                              |
+| `spire-agent.image.registry`                                  | Registry for Spire agents                                                           | `ghcr.io`                                   |
+| `spire-agent.image.repository`                                | Repository for Spire agents                                                         | `spiffe/spire-agent`                        |
+| `spire-agent.image.tag`                                       | Tag for Spire agent images                                                          | `""`                                        |
+| `spire-agent.image.version`                                   | App version for Spire agent images                                                  | `""`                                        |
+| `spire-agent.imagePullSecrets`                                | Pull secrets for authenticated registries                                           | `[]`                                        |
+| `spire-agent.livenessProbe.initialDelaySeconds`               | Initial delay in seconds for pod liveness probe                                     | `15`                                        |
+| `spire-agent.livenessProbe.periodSeconds`                     | Health check period in seconds for pod liveness probe                               | `60`                                        |
+| `spire-agent.readinessProbe.initialDelaySeconds`              | Initial delay in seconds for pod readiness probe                                    | `15`                                        |
+| `spire-agent.readinessProbe.periodSeconds`                    | Health check period in seconds for pod readiness probe                              | `60`                                        |
+| `spire-agent.nodeSelector`                                    | Nodeselector details for Spire agent pods                                           | `{}`                                        |
+| `spire-agent.podAnnotations`                                  | Annotations to be added at a pod level                                              | `{}`                                        |
+| `spire-agent.podSecurityContext`                              | Security contexts to be set at a pod level                                          | `{}`                                        |
+| `spire-agent.securityContext`                                 | Security contexts to be set at a pod level                                          | `{}`                                        |
+| `spire-agent.priorityClassName`                               | Priority class name for pod                                                         | `""`                                        |
+| `spire-agent.resources`                                       | Resources request and limits for Spire agent                                        | `{}`                                        |
+| `spire-agent.server.address`                                  | Address override for spire server                                                   | `""`                                        |
+| `spire-agent.server.namespaceOverride`                        | Namespace override for Spire server                                                 | `""`                                        |
+| `spire-agent.server.port`                                     | Port for Spire server                                                               | `8081`                                      |
+| `spire-agent.serviceAccount.create`                           | Flag for service account creation                                                   | `true`                                      |
+| `spire-agent.serviceAccount.name`                             | Name of service account for CSI driver                                              | `""`                                        |
+| `spire-agent.serviceAccount.annotations`                      | Annotations to be added to service account                                          | `{}`                                        |
+| `spire-agent.telemetry.prometheus.enabled`                    | Flag to enable prometheus monitoring                                                | `false`                                     |
+| `spire-agent.telemetry.prometheus.port`                       | Port for metrics endpoints                                                          | `9988`                                      |
+| `spire-agent.telemetry.prometheus.podMonitor.enabled`         | Flag for enabling podMonitor                                                        | `false`                                     |
+| `spire-agent.telemetry.prometheus.podMonitor.namespace`       | Namespace for podMonitor                                                            | `""`                                        |
+| `spire-agent.telemetry.prometheus.podMonitor.labels`          | Labels for podMonitor                                                               | `{}`                                        |
+| `spire-agent.tolerations`                                     | Specifies pod tolerations                                                           | `[]`                                        |
+| `spire-agent.waitForIt.image.pullPolicy`                      | Cluster pull policy for image used to wait for Spire server to come up              | `IfNotPresent`                              |
+| `spire-agent.waitForIt.image.registry`                        | Registry for image used to wait for Spire server to come up                         | `cgr.dev`                                   |
+| `spire-agent.waitForIt.image.repository`                      | Repository for image used to wait for Spire server to come up                       | `chainguard/wait-for-it`                    |
+| `spire-agent.waitForIt.image.tag`                             | Tag for image used to wait for Spire server to come up                              | `latest-20230517`                           |
+| `spire-agent.waitForIt.image.version`                         | App version for image used to wait for Spire server to come up                      | `""`                                        |
+| `spire-agent.waitForIt.resources`                             | Resources request and limits for container used to wait for Spire server to come up | `{}`                                        |
+| `spire-agent.workloadAttestors.k8s.disableContainerSelectors` | Configure k8s workload attestor to disable container selectors                      | `false`                                     |
+| `spire-agent.workloadAttestors.k8s.skipKubeletVerification`   | Configure k8s workload attestor to skip kubelet cert verification                   | `true`                                      |
+| `spire-agent.workloadAttestors.unix.enabled`                  | Flag to enable unix workload attestor                                               | `false`                                     |
 
 ### SPIFFE CSI Driver parameters
 
-| Name                        | Description                                      | Value  |
-| --------------------------- | ------------------------------------------------ | ------ |
-| `spiffe-csi-driver.enabled` | Flag to enable spiffe-csi-driver for the cluster | `true` |
-
-### Upstream SPIFFE CSI Driver parameters
-
-| Name                                           | Description                                                 | Value                                                |
-| ---------------------------------------------- | ----------------------------------------------------------- | ---------------------------------------------------- |
-| `upstream-spiffe-csi-driver.pluginName`        | The plugin name for configuring upstream Spiffe CSI driver  | `upstream.csi.spiffe.io`                             |
-| `upstream-spiffe-csi-driver.agentSocketPath`   | The socket path where Spiffe CSI driver mounts agent socket | `/run/spire/agent-sockets-upstream/spire-agent.sock` |
-| `upstream-spiffe-csi-driver.healthChecks.port` | The port where Spiffe CSI driver health checks are exposed  | `9810`                                               |
+| Name                                                       | Description                                                 | Value                                       |
+| ---------------------------------------------------------- | ----------------------------------------------------------- | ------------------------------------------- |
+| `spiffe-csi-driver.enabled`                                | Flag to enable spiffe-csi-driver for the cluster            | `true`                                      |
+| `spiffe-csi-driver.agentSocketPath`                        | The path where Spire agent socket is mounted                | `/run/spire/agent-sockets/spire-agent.sock` |
+| `spiffe-csi-driver.fullnameOverride`                       | Overrides the full name of CSI driver pods                  | `""`                                        |
+| `spiffe-csi-driver.nameOverride`                           | Overrides the name of CSI driver pods                       | `""`                                        |
+| `spiffe-csi-driver.namespaceOverride`                      | Overrides the namespace where CSI driver pods are installed | `""`                                        |
+| `spiffe-csi-driver.image.pullPolicy`                       | Cluster pull policy                                         | `IfNotPresent`                              |
+| `spiffe-csi-driver.image.registry`                         | Registry for Spire CSI driver images                        | `ghcr.io`                                   |
+| `spiffe-csi-driver.image.repository`                       | Repository for the Spire CSI driver image                   | `spiffe/spiffe-csi-driver`                  |
+| `spiffe-csi-driver.image.tag`                              | Tag for Spire CSI driver image                              | `""`                                        |
+| `spiffe-csi-driver.image.version`                          | App version for Spire CSI Driver image                      | `""`                                        |
+| `spiffe-csi-driver.imagePullSecrets`                       | Pull secrets for authenticated registries                   | `[]`                                        |
+| `spiffe-csi-driver.global.deleteHooks.enabled`             | Override flag for delete hooks                              | `true`                                      |
+| `spiffe-csi-driver.global.installAndUpgradeHooks.enabled`  | Override flag for install and upgrade hooks                 | `true`                                      |
+| `spiffe-csi-driver.global.k8s.clusterDomain`               | Local domain for cluster                                    | `cluster.local`                             |
+| `spiffe-csi-driver.global.spire.bundleConfigMap`           | Name of configmap with trust bundle for Spire               | `""`                                        |
+| `spiffe-csi-driver.global.spire.clusterName`               | Cluster name                                                | `example-cluster`                           |
+| `spiffe-csi-driver.global.spire.image.registry`            | Registry where spire image is stored                        | `""`                                        |
+| `spiffe-csi-driver.global.spire.jwtIssuer`                 | Issuer for JWT tokens                                       | `oidc-discovery.example.org`                |
+| `spiffe-csi-driver.global.spire.trustDomain`               | Spire trustdomain                                           | `example.org`                               |
+| `spiffe-csi-driver.global.spire.upstreamServerAddress`     | Server address for upstream Spire instance                  | `""`                                        |
+| `spiffe-csi-driver.healthChecks.port`                      | Port for Spire CSI driver image health check                | `9809`                                      |
+| `spiffe-csi-driver.kubeletPath`                            | Path to Kubelet config in the cluster node                  | `/var/lib/kubelet`                          |
+| `spiffe-csi-driver.livenessProbe.initialDelaySeconds`      | Initial delay in seconds for pod liveness probe             | `5`                                         |
+| `spiffe-csi-driver.livenessProbe.timeoutSeconds`           | Timeout in seconds for pod liveness probe                   | `5`                                         |
+| `spiffe-csi-driver.nodeDriverRegistrar.image.pullPolicy`   | Cluster pull policy for Node driver registrar image         | `IfNotPresent`                              |
+| `spiffe-csi-driver.nodeDriverRegistrar.image.registry`     | Registry for Node driver registrar image                    | `registry.k8s.io`                           |
+| `spiffe-csi-driver.nodeDriverRegistrar.image.repository`   | Repository for Node driver registrar image                  | `sig-storage/csi-node-driver-registrar`     |
+| `spiffe-csi-driver.nodeDriverRegistrar.image.tag`          | Tag for Node driver registrar image                         | `v2.8.0`                                    |
+| `spiffe-csi-driver.nodeDriverRegistrar.image.version`      | App version for Node driver registrar image                 | `""`                                        |
+| `spiffe-csi-driver.nodeDriverRegistrar.resources`          | Resources request and limits for Node driver registrar      | `{}`                                        |
+| `spiffe-csi-driver.nodeSelector`                           | Nodeselector details for Spiffe CSI driver pods             | `{}`                                        |
+| `spiffe-csi-driver.pluginName`                             | Plugin name                                                 | `csi.spiffe.io`                             |
+| `spiffe-csi-driver.podAnnotations`                         | Annotations to be added at a pod level                      | `{}`                                        |
+| `spiffe-csi-driver.podSecurityContext`                     | Security contexts to be set at a pod level                  | `{}`                                        |
+| `spiffe-csi-driver.securityContext`                        | Security contexts to be set at container level              |                                             |
+| `spiffe-csi-driver.securityContext.privileged`             | Flag to set privileged container status                     | `true`                                      |
+| `spiffe-csi-driver.securityContext.readOnlyRootFilesystem` | Flag for marking container filesystem readonly              | `true`                                      |
+| `spiffe-csi-driver.priorityClassName`                      | Priority class name for pod                                 | `""`                                        |
+| `spiffe-csi-driver.resources`                              | Resource requests and limits for CSI driver                 | `{}`                                        |
+| `spiffe-csi-driver.serviceAccount.create`                  | Flag for service account creation                           | `true`                                      |
+| `spiffe-csi-driver.serviceAccount.name`                    | Name of service account for CSI driver                      | `""`                                        |
+| `spiffe-csi-driver.serviceAccount.annotations`             | Annotations to be added to service account                  | `{}`                                        |
+| `spiffe-csi-driver.tolerations`                            | Specifies pod tolerations                                   | `[]`                                        |
 
 ### SPIFFE oidc discovery provider parameters
 
-| Name                                     | Description                                                   | Value   |
-| ---------------------------------------- | ------------------------------------------------------------- | ------- |
-| `spiffe-oidc-discovery-provider.enabled` | Flag to enable spiffe-oidc-discovery-provider for the cluster | `false` |
+| Name                                                                                 | Description                                                                     | Value                                                                            |
+| ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| `spiffe-oidc-discovery-provider.deleteHook.enabled`                                  | Override flag for delete hook                                                   | `true`                                                                           |
+| `spiffe-oidc-discovery-provider.enabled`                                             | Flag to enable spiffe-oidc-discovery-provider for the cluster                   | `false`                                                                          |
+| `spiffe-oidc-discovery-provider.agentSocketName`                                     | filename of the agent socket                                                    | `spire-agent.sock`                                                               |
+| `spiffe-oidc-discovery-provider.fullnameOverride`                                    | Overrides the full name of spiffe-oidc-discovery-provider pods                  | `""`                                                                             |
+| `spiffe-oidc-discovery-provider.nameOverride`                                        | Overrides the name of spiffe-oidc-discovery-provider pods                       | `""`                                                                             |
+| `spiffe-oidc-discovery-provider.namespaceOverride`                                   | Overrides the namespace where spiffe-oidc-discovery-provider pods are installed | `""`                                                                             |
+| `spiffe-oidc-discovery-provider.clusterDomain`                                       | Cluster domain name configured for spiffe-oidc-discovery-provider               | `cluster.local`                                                                  |
+| `spiffe-oidc-discovery-provider.trustDomain`                                         | Trust domain name configured for spiffe-oidc-discovery-provider                 | `example.org`                                                                    |
+| `spiffe-oidc-discovery-provider.jwtIssuer`                                           | JWT issuer name configured for spiffe-oidc-discovery-provider                   | `oidc-discovery.example.org`                                                     |
+| `spiffe-oidc-discovery-provider.replicaCount`                                        | Number of replicas, autoscaling values will override                            | `1`                                                                              |
+| `spiffe-oidc-discovery-provider.global.deleteHooks.enabled`                          | Override flag for delete hooks                                                  | `true`                                                                           |
+| `spiffe-oidc-discovery-provider.global.installAndUpgradeHooks.enabled`               | Override flag for install and upgrade hooks                                     | `true`                                                                           |
+| `spiffe-oidc-discovery-provider.global.k8s.clusterDomain`                            | Cluster domain name configured for spiffe-oidc-discovery-provider               | `cluster.local`                                                                  |
+| `spiffe-oidc-discovery-provider.global.spire.bundleConfigMap`                        | Spire bundle config map for spiffe-oidc-discovery-provider                      | `""`                                                                             |
+| `spiffe-oidc-discovery-provider.global.spire.clusterName`                            | The name of the k8s cluster for spiffe-oidc-discovery-provider                  | `example-cluster`                                                                |
+| `spiffe-oidc-discovery-provider.global.spire.image.registry`                         | Image registry for spiffe-oidc-discovery-provider                               | `""`                                                                             |
+| `spiffe-oidc-discovery-provider.global.spire.jwtIssuer`                              | JWT Issuer configured for spiffe-oidc-discovery-provider                        | `oidc-discovery.example.org`                                                     |
+| `spiffe-oidc-discovery-provider.global.spire.trustDomain`                            | Trust domain name configured for spiffe-oidc-discovery-provider                 | `example.org`                                                                    |
+| `spiffe-oidc-discovery-provider.global.spire.upstreamServerAddress`                  | Address for upstream Spire instance                                             | `""`                                                                             |
+| `spiffe-oidc-discovery-provider.config.logLevel`                                     | Log level for spiffe-oidc-discovery-provider                                    | `info`                                                                           |
+| `spiffe-oidc-discovery-provider.config.additionalDomains`                            | Additional domains configured for spiffe-oidc-discovery-provider                | `["localhost"]`                                                                  |
+| `spiffe-oidc-discovery-provider.config.acme.cacheDir`                                | Letsenctrypt plugin cache directory                                             | `/run/spire`                                                                     |
+| `spiffe-oidc-discovery-provider.config.acme.directoryUrl`                            | Letsencrypt plugin directory URL                                                | `https://acme-v02.api.letsencrypt.org/directory`                                 |
+| `spiffe-oidc-discovery-provider.config.acme.emailAddress`                            | Letsencrypt plugin email address                                                | `letsencrypt@example.org`                                                        |
+| `spiffe-oidc-discovery-provider.config.acme.tosAccepted`                             | Letsencrypt TOS acceptance flag                                                 | `false`                                                                          |
+| `spiffe-oidc-discovery-provider.configMap.annotations`                               |                                                                                 | `{}`                                                                             |
+| `spiffe-oidc-discovery-provider.image.pullPolicy`                                    | Cluster pull policy                                                             | `IfNotPresent`                                                                   |
+| `spiffe-oidc-discovery-provider.image.registry`                                      | Registry for spiffe-oidc-discovery-provider image                               | `ghcr.io`                                                                        |
+| `spiffe-oidc-discovery-provider.image.repository`                                    | Repository for spiffe-oidc-discovery-provider image                             | `spiffe/oidc-discovery-provider`                                                 |
+| `spiffe-oidc-discovery-provider.image.tag`                                           | Tag for spiffe-oidc-discovery-provider image                                    | `""`                                                                             |
+| `spiffe-oidc-discovery-provider.image.version`                                       | App version for spiffe-oidc-discovery-provider                                  | `""`                                                                             |
+| `spiffe-oidc-discovery-provider.imagePullSecrets`                                    | Pull secrets for authenticated registries                                       | `[]`                                                                             |
+| `spiffe-oidc-discovery-provider.service.annotations`                                 | Annotations for service object                                                  | `{}`                                                                             |
+| `spiffe-oidc-discovery-provider.service.port`                                        | Service port                                                                    | `80`                                                                             |
+| `spiffe-oidc-discovery-provider.service.type`                                        | Service type                                                                    | `ClusterIP`                                                                      |
+| `spiffe-oidc-discovery-provider.ingress.enabled`                                     | Enable ingress for spiffe-oidc-discovery-provider                               | `false`                                                                          |
+| `spiffe-oidc-discovery-provider.ingress.className`                                   | Ingress class name                                                              | `""`                                                                             |
+| `spiffe-oidc-discovery-provider.ingress.annotations`                                 | Annotations for ingress object                                                  | `{}`                                                                             |
+| `spiffe-oidc-discovery-provider.ingress.hosts`                                       | List of hosts configured for ingress with path                                  | `[]`                                                                             |
+| `spiffe-oidc-discovery-provider.ingress.tls`                                         | List of tls secrets for ingress                                                 | `[]`                                                                             |
+| `spiffe-oidc-discovery-provider.insecureScheme.enabled`                              | Flag to enable insecure nginx install                                           | `false`                                                                          |
+| `spiffe-oidc-discovery-provider.insecureScheme.nginx.image.pullPolicy`               | Image pull policy                                                               | `IfNotPresent`                                                                   |
+| `spiffe-oidc-discovery-provider.insecureScheme.nginx.image.registry`                 | Registry for nginx image                                                        | `docker.io`                                                                      |
+| `spiffe-oidc-discovery-provider.insecureScheme.nginx.image.repository`               | Repository for nginx image                                                      | `nginxinc/nginx-unprivileged`                                                    |
+| `spiffe-oidc-discovery-provider.insecureScheme.nginx.image.tag`                      | Tag for nginx image                                                             | `1.24.0-alpine`                                                                  |
+| `spiffe-oidc-discovery-provider.insecureScheme.nginx.image.version`                  | App version for nginx                                                           | `""`                                                                             |
+| `spiffe-oidc-discovery-provider.insecureScheme.nginx.resources`                      | Resources request and limits for nginx                                          | `{}`                                                                             |
+| `spiffe-oidc-discovery-provider.livenessProbe.initialDelaySeconds`                   | Initial delay in seconds for pod liveness probe                                 | `5`                                                                              |
+| `spiffe-oidc-discovery-provider.livenessProbe.periodSeconds`                         | Period in seconds for pod liveness probe                                        | `5`                                                                              |
+| `spiffe-oidc-discovery-provider.readinessProbe.initialDelaySeconds`                  | Initial delay in seconds for pod liveness probe                                 | `5`                                                                              |
+| `spiffe-oidc-discovery-provider.readinessProbe.periodSeconds`                        | Period in seconds for pod liveness probe                                        | `5`                                                                              |
+| `spiffe-oidc-discovery-provider.autoscaling.enabled`                                 | Enable horizontal pod autoscaling                                               | `false`                                                                          |
+| `spiffe-oidc-discovery-provider.autoscaling.maxReplicas`                             | Maximum replicas for autoscaling                                                | `5`                                                                              |
+| `spiffe-oidc-discovery-provider.autoscaling.minReplicas`                             | Minimum replicas for autoscaling                                                | `1`                                                                              |
+| `spiffe-oidc-discovery-provider.autoscaling.targetCPUUtilizationPercentage`          | Target CPU utilization                                                          | `80`                                                                             |
+| `spiffe-oidc-discovery-provider.autoscaling.targetMemoryUtilizationPercentage`       | Target memory utilization                                                       | `80`                                                                             |
+| `spiffe-oidc-discovery-provider.annotations`                                         | Annotations for SPIFFE OIDC discovery provider pods                             | `{}`                                                                             |
+| `spiffe-oidc-discovery-provider.nodeSelector`                                        | Nodeselector details for spiffe-oidc-discovery-provider pods                    | `{}`                                                                             |
+| `spiffe-oidc-discovery-provider.affinity`                                            | Node affinity for spiffe-oidc-discovery-provider pods                           | `{}`                                                                             |
+| `spiffe-oidc-discovery-provider.podAnnotations`                                      | Annotations to be added at a pod level                                          | `{}`                                                                             |
+| `spiffe-oidc-discovery-provider.podSecurityContext`                                  | Security contexts to be set at a pod level                                      | `{}`                                                                             |
+| `spiffe-oidc-discovery-provider.securityContext`                                     | Security contexts to be set at a pod level                                      | `{}`                                                                             |
+| `spiffe-oidc-discovery-provider.resources`                                           | Resources request and limits for Node driver registrar                          | `{}`                                                                             |
+| `spiffe-oidc-discovery-provider.serviceAccount.create`                               | Flag for service account creation                                               | `true`                                                                           |
+| `spiffe-oidc-discovery-provider.serviceAccount.name`                                 | Name of service account for OIDC provider                                       | `""`                                                                             |
+| `spiffe-oidc-discovery-provider.serviceAccount.annotations`                          | Annotations to be added to service account                                      | `{}`                                                                             |
+| `spiffe-oidc-discovery-provider.telemetry.prometheus.enabled`                        | Flag to enable prometheus monitoring                                            | `false`                                                                          |
+| `spiffe-oidc-discovery-provider.telemetry.prometheus.port`                           | Port for metrics endpoints                                                      | `9988`                                                                           |
+| `spiffe-oidc-discovery-provider.telemetry.prometheus.nginxExporter.image.pullPolicy` | Image pull policy                                                               | `IfNotPresent`                                                                   |
+| `spiffe-oidc-discovery-provider.telemetry.prometheus.nginxExporter.image.registry`   | Registry for nginx exporter images                                              | `docker.io`                                                                      |
+| `spiffe-oidc-discovery-provider.telemetry.prometheus.nginxExporter.image.repository` | Repository for the nginx exporter image                                         | `nginx/nginx-prometheus-exporter`                                                |
+| `spiffe-oidc-discovery-provider.telemetry.prometheus.nginxExporter.image.tag`        | Tag for nginx exporter image                                                    | `0.11.0`                                                                         |
+| `spiffe-oidc-discovery-provider.telemetry.prometheus.nginxExporter.image.version`    | App version for nginx exporter image                                            | `""`                                                                             |
+| `spiffe-oidc-discovery-provider.telemetry.prometheus.nginxExporter.resources`        | Resources request and limits for Node driver registrar                          | `{}`                                                                             |
+| `spiffe-oidc-discovery-provider.telemetry.prometheus.podMonitor.enabled`             | Flag for enabling podMonitor                                                    | `false`                                                                          |
+| `spiffe-oidc-discovery-provider.telemetry.prometheus.podMonitor.namespace`           | Namespace for podMonitor                                                        | `""`                                                                             |
+| `spiffe-oidc-discovery-provider.telemetry.prometheus.podMonitor.labels`              | Labels for podMonitor                                                           | `{}`                                                                             |
+| `spiffe-oidc-discovery-provider.tests.agent.image.pullPolicy`                        | Cluster pull policy                                                             | `IfNotPresent`                                                                   |
+| `spiffe-oidc-discovery-provider.tests.agent.image.registry`                          | Registry for Spire controller manager images                                    | `ghcr.io`                                                                        |
+| `spiffe-oidc-discovery-provider.tests.agent.image.repository`                        | Repository for the Spire controller manager image                               | `spiffe/spire-agent`                                                             |
+| `spiffe-oidc-discovery-provider.tests.agent.image.tag`                               | Tag for Spire controller manager image                                          | `""`                                                                             |
+| `spiffe-oidc-discovery-provider.tests.agent.image.version`                           | App version for Spire controller manager image                                  | `""`                                                                             |
+| `spiffe-oidc-discovery-provider.tests.busybox.image.pullPolicy`                      | Cluster pull policy                                                             | `IfNotPresent`                                                                   |
+| `spiffe-oidc-discovery-provider.tests.busybox.image.registry`                        | Registry for Spire controller manager images                                    | `""`                                                                             |
+| `spiffe-oidc-discovery-provider.tests.busybox.image.repository`                      | Repository for the Spire controller manager image                               | `busybox`                                                                        |
+| `spiffe-oidc-discovery-provider.tests.busybox.image.tag`                             | Tag for Spire controller manager image                                          | `uclibc@sha256:3e516f71d8801b0ce6c3f8f8e4f11093ec04e168177a90f1da4498014ee06b6b` |
+| `spiffe-oidc-discovery-provider.tests.busybox.image.version`                         | App version for Spire controller manager image                                  | `""`                                                                             |
+| `spiffe-oidc-discovery-provider.tests.hostAliases`                                   | List of host aliases for testing                                                | `[]`                                                                             |
+| `spiffe-oidc-discovery-provider.tests.tls.enabled`                                   | Flag for enabling tls for testing                                               | `false`                                                                          |
+| `spiffe-oidc-discovery-provider.tests.tls.customCA`                                  | CustomCA for testing with tls                                                   | `""`                                                                             |
+| `spiffe-oidc-discovery-provider.tests.bash.image.pullPolicy`                         | Image pull policy                                                               | `IfNotPresent`                                                                   |
+| `spiffe-oidc-discovery-provider.tests.bash.image.registry`                           | Registry for bash images                                                        | `cgr.dev`                                                                        |
+| `spiffe-oidc-discovery-provider.tests.bash.image.repository`                         | Repository for the bash image                                                   | `chainguard/bash`                                                                |
+| `spiffe-oidc-discovery-provider.tests.bash.image.tag`                                | Tag for bash image                                                              | `5.2.15`                                                                         |
+| `spiffe-oidc-discovery-provider.tests.bash.image.version`                            | App version for bash image                                                      | `""`                                                                             |
+| `spiffe-oidc-discovery-provider.tests.toolkit.image.pullPolicy`                      | Image pull policy                                                               | `IfNotPresent`                                                                   |
+| `spiffe-oidc-discovery-provider.tests.toolkit.image.registry`                        | Registry for bash images                                                        | `cgr.dev`                                                                        |
+| `spiffe-oidc-discovery-provider.tests.toolkit.image.repository`                      | Repository for the bash image                                                   | `chainguard/slim-toolkit-debug`                                                  |
+| `spiffe-oidc-discovery-provider.tests.toolkit.image.tag`                             | Tag for bash image                                                              | `latest@sha256:d717d0a2c88518f8e36d9cfe1571639a40617e8c4291e34876d46bdeefb1ab5a` |
+| `spiffe-oidc-discovery-provider.tests.toolkit.image.version`                         | App version for bash image                                                      | `""`                                                                             |
+| `spiffe-oidc-discovery-provider.tolerations`                                         | Specifies pod tolerations                                                       | `[]`                                                                             |
+| `spiffe-oidc-discovery-provider.tools.kubectl.image.pullPolicy`                      | Image pull policy                                                               | `IfNotPresent`                                                                   |
+| `spiffe-oidc-discovery-provider.tools.kubectl.image.registry`                        | Registry for kubectl images                                                     | `docker.io`                                                                      |
+| `spiffe-oidc-discovery-provider.tools.kubectl.image.repository`                      | Repository for the kubectl image                                                | `rancher/kubectl`                                                                |
+| `spiffe-oidc-discovery-provider.tools.kubectl.image.tag`                             | Tag for kubectl image                                                           | `""`                                                                             |
+| `spiffe-oidc-discovery-provider.tools.kubectl.image.version`                         | App version for kubectl image                                                   | `""`                                                                             |
 
 ### Tornjak frontend parameters
 
-| Name                       | Description                                                    | Value   |
-| -------------------------- | -------------------------------------------------------------- | ------- |
-| `tornjak-frontend.enabled` | Enables deployment of Tornjak frontend/UI (Not for production) | `false` |
+| Name                                                     | Description                                                       | Value                        |
+| -------------------------------------------------------- | ----------------------------------------------------------------- | ---------------------------- |
+| `tornjak-frontend.enabled`                               | Flag to enable Tronjak frontend                                   | `false`                      |
+| `tornjak-frontend.fullnameOverride`                      | Overrides the full name of Tornjak frontend pods                  | `""`                         |
+| `tornjak-frontend.nameOverride`                          | Overrides the name of Tornjak frontend pods                       | `""`                         |
+| `tornjak-frontend.namespaceOverride`                     | Overrides the namespace where Tornjak frontend pods are installed | `""`                         |
+| `tornjak-frontend.apiServerURL`                          | API server URL for Tornjak server                                 | `http://localhost:10000/`    |
+| `tornjak-frontend.affinity`                              | Node affinity for Tornjak pods                                    | `{}`                         |
+| `tornjak-frontend.global.deleteHooks.enabled`            | Override flag for delete hooks                                    | `true`                       |
+| `tornjak-frontend.global.installAndUpgradeHooks.enabled` | Override flag for install and upgrade hooks                       | `true`                       |
+| `tornjak-frontend.global.k8s.clusterDomain`              | Cluster domain name configured for Tornjak frontend               | `cluster.local`              |
+| `tornjak-frontend.global.spire.bundleConfigMap`          | Spire bundle config map for Tornjak frontend                      | `""`                         |
+| `tornjak-frontend.global.spire.clusterName`              | The name of the k8s cluster for Tornjak frontend                  | `example-cluster`            |
+| `tornjak-frontend.global.spire.image.registry`           | Image registry for Tornjak frontend                               | `""`                         |
+| `tornjak-frontend.global.spire.jwtIssuer`                | JWT Issuer configured for Tornjak frontend                        | `oidc-discovery.example.org` |
+| `tornjak-frontend.global.spire.trustDomain`              | Trust domain name configured for Tornjak frontend                 | `example.org`                |
+| `tornjak-frontend.global.spire.upstreamServerAddress`    | Upstream Spire server address                                     | `""`                         |
+| `tornjak-frontend.image.pullPolicy`                      | Cluster pull policy                                               | `IfNotPresent`               |
+| `tornjak-frontend.image.registry`                        | Registry for Tornjak frontend image                               | `ghcr.io`                    |
+| `tornjak-frontend.image.repository`                      | Repository for Tornjak frontend image                             | `spiffe/tornjak-frontend`    |
+| `tornjak-frontend.image.tag`                             | Tag for Tornjak frontend image                                    | `""`                         |
+| `tornjak-frontend.image.version`                         | App version for Tornjak frontend image                            | `""`                         |
+| `tornjak-frontend.imagePullSecrets`                      | Pull secrets for authenticated registries                         | `[]`                         |
+| `tornjak-frontend.labels`                                | Labels for Tornjak frontend                                       | `{}`                         |
+| `tornjak-frontend.nodeSelector`                          | Nodeselector details for Tornjak frontend pods                    |                              |
+| `tornjak-frontend.podSecurityContext`                    | Security contexts to be set at a pod level                        | `{}`                         |
+| `tornjak-frontend.securityContext`                       | Security contexts to be set at a container level                  | `{}`                         |
+| `tornjak-frontend.service.annotations`                   | Annotations for service object                                    | `{}`                         |
+| `tornjak-frontend.service.port`                          | Service port                                                      | `3000`                       |
+| `tornjak-frontend.service.type`                          | Service type                                                      | `ClusterIP`                  |
+| `tornjak-frontend.serviceAccount.create`                 | Flag for service account creation                                 | `true`                       |
+| `tornjak-frontend.serviceAccount.name`                   | Name of service account for Tornjak frontend                      | `""`                         |
+| `tornjak-frontend.serviceAccount.annotations`            | Annotations to be added to service account                        | `{}`                         |
+| `tornjak-frontend.spireHealthCheck.enabled`              | Flag to enable Spire server URL health check                      | `true`                       |
+| `tornjak-frontend.startupProbe.enabled`                  | Flag for enabling pod startup probe                               | `true`                       |
+| `tornjak-frontend.startupProbe.initialDelaySeconds`      | Initial delay in seconds for pod startup probe                    | `5`                          |
+| `tornjak-frontend.startupProbe.periodSeconds`            | Period in seconds for pod startup probe                           | `10`                         |
+| `tornjak-frontend.startupProbe.timeoutSeconds`           | Timeout in seconds for pod startup probe                          | `5`                          |
+| `tornjak-frontend.startupProbe.successThreshold`         | Success threshold for pod startup probe                           | `1`                          |
+| `tornjak-frontend.startupProbe.failureThreshold`         | Failure threshold for pod startup probe                           | `6`                          |
+| `tornjak-frontend.tests.bash.image.pullPolicy`           | Cluster pull policy                                               | `IfNotPresent`               |
+| `tornjak-frontend.tests.bash.image.registry`             | Registry for testing bash image                                   | `cgr.dev`                    |
+| `tornjak-frontend.tests.bash.image.repository`           | Repository for testing bash image                                 | `chainguard/bash`            |
+| `tornjak-frontend.tests.bash.image.tag`                  | Tag for testing bash image                                        | `5.2.15`                     |
+| `tornjak-frontend.tests.bash.image.version`              | App version for testing bash image                                | `""`                         |
+| `tornjak-frontend.tolerations`                           | Specifies pod tolerations                                         | `[]`                         |
+| `tornjak-frontend.topologySpreadConstraints`             | Specifies topology spread constraints for pod scheduling          | `[]`                         |
 
-## Values
+### Upstream Spire parameters
 
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| global.deleteHooks.enabled | bool | `true` | Enable Helm hooks to autofix common delete issues (should be disabled when using `helm template`) |
-| global.installAndUpgradeHooks.enabled | bool | `true` | Enable Helm hooks to autofix common install/upgrade issues (should be disabled when using `helm template`) |
-| global.k8s.clusterDomain | string | `"cluster.local"` |  |
-| global.spire.bundleConfigMap | string | `""` | Override all instances of bundleConfigMap |
-| global.spire.clusterName | string | `"example-cluster"` |  |
-| global.spire.image.registry | string | `""` | Override all Spire image registries at once |
-| global.spire.jwtIssuer | string | `"https://oidc-discovery.example.org"` | Set the jwt issuer |
-| global.spire.trustDomain | string | `"example.org"` | The trust domain to be used for the SPIFFE identifiers |
-| global.spire.upstreamServerAddress | string | `""` | Set what address to use for the upstream server when using nested spire |
-| spiffe-csi-driver.enabled | bool | `true` | Enables deployment of CSI driver |
-| spiffe-oidc-discovery-provider.enabled | bool | `false` | Enables deployment of OIDC discovery provider |
-| spire-agent.enabled | bool | `true` | Enables deployment of SPIRE Agent(s) |
-| spire-agent.nameOverride | string | `"agent"` |  |
-| spire-server.controllerManager.enabled | bool | `true` | Enables deployment of Controller Manager |
-| spire-server.enabled | bool | `true` | Enables deployment of SPIRE Server |
-| spire-server.nameOverride | string | `"server"` |  |
-| tornjak-frontend.enabled | bool | `false` | Enables deployment of Tornjak frontend/UI (Not for production) |
-| upstream-spiffe-csi-driver.agentSocketPath | string | `"/run/spire/agent-sockets-upstream/spire-agent.sock"` |  |
-| upstream-spiffe-csi-driver.healthChecks.port | int | `9810` |  |
-| upstream-spiffe-csi-driver.pluginName | string | `"upstream.csi.spiffe.io"` |  |
-| upstream-spire-agent.bundleConfigMap | string | `"spire-bundle-upstream"` |  |
-| upstream-spire-agent.healthChecks.port | int | `9981` |  |
-| upstream-spire-agent.nameOverride | string | `"agent-upstream"` |  |
-| upstream-spire-agent.serviceAccount.name | string | `"spire-agent-upstream"` |  |
-| upstream-spire-agent.socketPath | string | `"/run/spire/agent-sockets-upstream/spire-agent.sock"` |  |
-| upstream-spire-agent.telemetry.prometheus.port | int | `9989` |  |
-| upstream.enabled | bool | `false` | enable upstream agent and driver for use with nested spire. |
-| spiffe-csi-driver.agentSocketPath | string | `"/run/spire/agent-sockets/spire-agent.sock"` | The unix socket path to the spire-agent |
-| spiffe-csi-driver.fullnameOverride | string | `""` |  |
-| spiffe-csi-driver.healthChecks.port | int | `9809` |  |
-| spiffe-csi-driver.image.pullPolicy | string | `"IfNotPresent"` | The image pull policy |
-| spiffe-csi-driver.image.registry | string | `"ghcr.io"` | The OCI registry to pull the image from |
-| spiffe-csi-driver.image.repository | string | `"spiffe/spiffe-csi-driver"` | The repository within the registry |
-| spiffe-csi-driver.image.tag | string | `""` | Overrides the image tag whose default is the chart appVersion |
-| spiffe-csi-driver.image.version | string | `""` | This value is deprecated in favor of tag. (Will be removed in a future release) |
-| spiffe-csi-driver.imagePullSecrets | list | `[]` |  |
-| spiffe-csi-driver.kubeletPath | string | `"/var/lib/kubelet"` |  |
-| spiffe-csi-driver.livenessProbe.initialDelaySeconds | int | `5` | Initial delay seconds for livenessProbe |
-| spiffe-csi-driver.livenessProbe.timeoutSeconds | int | `5` | Timeout value in seconds for livenessProbe |
-| spiffe-csi-driver.nameOverride | string | `""` |  |
-| spiffe-csi-driver.namespaceOverride | string | `""` |  |
-| spiffe-csi-driver.nodeDriverRegistrar.image.pullPolicy | string | `"IfNotPresent"` | The image pull policy |
-| spiffe-csi-driver.nodeDriverRegistrar.image.registry | string | `"registry.k8s.io"` | The OCI registry to pull the image from |
-| spiffe-csi-driver.nodeDriverRegistrar.image.repository | string | `"sig-storage/csi-node-driver-registrar"` | The repository within the registry |
-| spiffe-csi-driver.nodeDriverRegistrar.image.tag | string | `"v2.8.0"` | Overrides the image tag |
-| spiffe-csi-driver.nodeDriverRegistrar.image.version | string | `""` | This value is deprecated in favor of tag. (Will be removed in a future release) |
-| spiffe-csi-driver.nodeDriverRegistrar.resources | object | `{}` |  |
-| spiffe-csi-driver.nodeSelector | object | `{}` |  |
-| spiffe-csi-driver.pluginName | string | `"csi.spiffe.io"` | Set the csi driver name deployed to Kubernetes. |
-| spiffe-csi-driver.podAnnotations | object | `{}` |  |
-| spiffe-csi-driver.podSecurityContext | object | `{}` |  |
-| spiffe-csi-driver.priorityClassName | string | `""` | Priority class assigned to daemonset pods |
-| spiffe-csi-driver.resources | object | `{}` |  |
-| spiffe-csi-driver.securityContext.privileged | bool | `true` |  |
-| spiffe-csi-driver.securityContext.readOnlyRootFilesystem | bool | `true` |  |
-| spiffe-csi-driver.serviceAccount.annotations | object | `{}` | Annotations to add to the service account |
-| spiffe-csi-driver.serviceAccount.create | bool | `true` | Specifies whether a service account should be created |
-| spiffe-csi-driver.serviceAccount.name | string | `""` | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
-| spiffe-csi-driver.tolerations | list | `[]` |  |
-| spiffe-oidc-discovery-provider.affinity | object | `{}` |  |
-| spiffe-oidc-discovery-provider.agentSocketName | string | `"spire-agent.sock"` | The name of the spire-agent unix socket |
-| spiffe-oidc-discovery-provider.annotations | object | `{}` | Annotations for the deployment |
-| spiffe-oidc-discovery-provider.autoscaling.enabled | bool | `false` |  |
-| spiffe-oidc-discovery-provider.autoscaling.maxReplicas | int | `5` |  |
-| spiffe-oidc-discovery-provider.autoscaling.minReplicas | int | `1` |  |
-| spiffe-oidc-discovery-provider.autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
-| spiffe-oidc-discovery-provider.autoscaling.targetMemoryUtilizationPercentage | int | `80` |  |
-| spiffe-oidc-discovery-provider.clusterDomain | string | `"cluster.local"` |  |
-| spiffe-oidc-discovery-provider.config.acme.cacheDir | string | `"/run/spire"` |  |
-| spiffe-oidc-discovery-provider.config.acme.directoryUrl | string | `"https://acme-v02.api.letsencrypt.org/directory"` |  |
-| spiffe-oidc-discovery-provider.config.acme.emailAddress | string | `"letsencrypt@example.org"` |  |
-| spiffe-oidc-discovery-provider.config.acme.tosAccepted | bool | `false` |  |
-| spiffe-oidc-discovery-provider.config.additionalDomains | list | `["localhost"]` | Add additional domains that can be used for oidc discovery |
-| spiffe-oidc-discovery-provider.config.logLevel | string | `"info"` | The log level, valid values are "debug", "info", "warn", and "error" |
-| spiffe-oidc-discovery-provider.configMap.annotations | object | `{}` | Annotations to add to the SPIFFE OIDC Discovery Provider ConfigMap |
-| spiffe-oidc-discovery-provider.deleteHook.enabled | bool | `true` | Enable Helm hooks to autofix common delete issues (should be disabled when using `helm template`) |
-| spiffe-oidc-discovery-provider.fullnameOverride | string | `""` |  |
-| spiffe-oidc-discovery-provider.image.pullPolicy | string | `"IfNotPresent"` | The image pull policy |
-| spiffe-oidc-discovery-provider.image.registry | string | `"ghcr.io"` | The OCI registry to pull the image from |
-| spiffe-oidc-discovery-provider.image.repository | string | `"spiffe/oidc-discovery-provider"` | The repository within the registry |
-| spiffe-oidc-discovery-provider.image.tag | string | `""` | Overrides the image tag whose default is the chart appVersion |
-| spiffe-oidc-discovery-provider.image.version | string | `""` | This value is deprecated in favor of tag. (Will be removed in a future release) |
-| spiffe-oidc-discovery-provider.imagePullSecrets | list | `[]` |  |
-| spiffe-oidc-discovery-provider.ingress.annotations | object | `{}` |  |
-| spiffe-oidc-discovery-provider.ingress.className | string | `""` |  |
-| spiffe-oidc-discovery-provider.ingress.enabled | bool | `false` |  |
-| spiffe-oidc-discovery-provider.ingress.hosts[0].host | string | `"oidc-discovery.example.org"` |  |
-| spiffe-oidc-discovery-provider.ingress.hosts[0].paths[0].path | string | `"/"` |  |
-| spiffe-oidc-discovery-provider.ingress.hosts[0].paths[0].pathType | string | `"Prefix"` |  |
-| spiffe-oidc-discovery-provider.ingress.tls | list | `[]` |  |
-| spiffe-oidc-discovery-provider.insecureScheme.enabled | bool | `false` |  |
-| spiffe-oidc-discovery-provider.insecureScheme.nginx.image.pullPolicy | string | `"IfNotPresent"` | The image pull policy |
-| spiffe-oidc-discovery-provider.insecureScheme.nginx.image.registry | string | `"docker.io"` | The OCI registry to pull the image from |
-| spiffe-oidc-discovery-provider.insecureScheme.nginx.image.repository | string | `"nginxinc/nginx-unprivileged"` | The repository within the registry |
-| spiffe-oidc-discovery-provider.insecureScheme.nginx.image.tag | string | `"1.24.0-alpine"` | Overrides the image tag |
-| spiffe-oidc-discovery-provider.insecureScheme.nginx.image.version | string | `""` | This value is deprecated in favor of tag. (Will be removed in a future release) |
-| spiffe-oidc-discovery-provider.insecureScheme.nginx.resources | object | `{}` |  |
-| spiffe-oidc-discovery-provider.jwtIssuer | string | `"https://oidc-discovery.example.org"` |  |
-| spiffe-oidc-discovery-provider.livenessProbe.initialDelaySeconds | int | `5` | Initial delay seconds for livenessProbe |
-| spiffe-oidc-discovery-provider.livenessProbe.periodSeconds | int | `5` | Period seconds for livenessProbe |
-| spiffe-oidc-discovery-provider.nameOverride | string | `""` |  |
-| spiffe-oidc-discovery-provider.namespaceOverride | string | `""` |  |
-| spiffe-oidc-discovery-provider.nodeSelector | object | `{}` |  |
-| spiffe-oidc-discovery-provider.podAnnotations | object | `{}` |  |
-| spiffe-oidc-discovery-provider.podSecurityContext | object | `{}` |  |
-| spiffe-oidc-discovery-provider.readinessProbe.initialDelaySeconds | int | `5` | Initial delay seconds for readinessProbe |
-| spiffe-oidc-discovery-provider.readinessProbe.periodSeconds | int | `5` | Period seconds for readinessProbe |
-| spiffe-oidc-discovery-provider.replicaCount | int | `1` |  |
-| spiffe-oidc-discovery-provider.resources | object | `{}` |  |
-| spiffe-oidc-discovery-provider.securityContext | object | `{}` |  |
-| spiffe-oidc-discovery-provider.service.annotations | object | `{}` |  |
-| spiffe-oidc-discovery-provider.service.port | int | `80` |  |
-| spiffe-oidc-discovery-provider.service.type | string | `"ClusterIP"` |  |
-| spiffe-oidc-discovery-provider.serviceAccount.annotations | object | `{}` | Annotations to add to the service account |
-| spiffe-oidc-discovery-provider.serviceAccount.create | bool | `true` | Specifies whether a service account should be created |
-| spiffe-oidc-discovery-provider.serviceAccount.name | string | `""` | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
-| spiffe-oidc-discovery-provider.telemetry.prometheus.enabled | bool | `false` |  |
-| spiffe-oidc-discovery-provider.telemetry.prometheus.nginxExporter.image.pullPolicy | string | `"IfNotPresent"` | The image pull policy |
-| spiffe-oidc-discovery-provider.telemetry.prometheus.nginxExporter.image.registry | string | `"docker.io"` | The OCI registry to pull the image from |
-| spiffe-oidc-discovery-provider.telemetry.prometheus.nginxExporter.image.repository | string | `"nginx/nginx-prometheus-exporter"` | The repository within the registry |
-| spiffe-oidc-discovery-provider.telemetry.prometheus.nginxExporter.image.tag | string | `"0.11.0"` | Overrides the image tag |
-| spiffe-oidc-discovery-provider.telemetry.prometheus.nginxExporter.image.version | string | `""` | This value is deprecated in favor of tag. (Will be removed in a future release) |
-| spiffe-oidc-discovery-provider.telemetry.prometheus.nginxExporter.resources | object | `{}` |  |
-| spiffe-oidc-discovery-provider.telemetry.prometheus.podMonitor.enabled | bool | `false` |  |
-| spiffe-oidc-discovery-provider.telemetry.prometheus.podMonitor.labels | object | `{}` |  |
-| spiffe-oidc-discovery-provider.telemetry.prometheus.podMonitor.namespace | string | `""` | Override where to install the podMonitor, if not set will use the same namespace as the spiffe-oidc-discovery-provider |
-| spiffe-oidc-discovery-provider.telemetry.prometheus.port | int | `9988` |  |
-| spiffe-oidc-discovery-provider.tolerations | list | `[]` |  |
-| spiffe-oidc-discovery-provider.tools.kubectl.image.pullPolicy | string | `"IfNotPresent"` | The image pull policy |
-| spiffe-oidc-discovery-provider.tools.kubectl.image.registry | string | `"docker.io"` | The OCI registry to pull the image from |
-| spiffe-oidc-discovery-provider.tools.kubectl.image.repository | string | `"rancher/kubectl"` | The repository within the registry |
-| spiffe-oidc-discovery-provider.tools.kubectl.image.tag | string | `""` | Overrides the image tag |
-| spiffe-oidc-discovery-provider.tools.kubectl.image.version | string | `""` | This value is deprecated in favor of tag. (Will be removed in a future release) |
-| spiffe-oidc-discovery-provider.trustDomain | string | `"example.org"` | Set the trust domain to be used for the SPIFFE identifiers |
-| spire-agent.bundleConfigMap | string | `"spire-bundle"` |  |
-| spire-agent.clusterName | string | `"example-cluster"` |  |
-| spire-agent.configMap.annotations | object | `{}` | Annotations to add to the SPIRE Agent ConfigMap |
-| spire-agent.extraContainers | list | `[]` |  |
-| spire-agent.extraVolumeMounts | list | `[]` |  |
-| spire-agent.extraVolumes | list | `[]` |  |
-| spire-agent.fsGroupFix.image.pullPolicy | string | `"Always"` | The image pull policy |
-| spire-agent.fsGroupFix.image.registry | string | `"cgr.dev"` | The OCI registry to pull the image from |
-| spire-agent.fsGroupFix.image.repository | string | `"chainguard/bash"` | The repository within the registry |
-| spire-agent.fsGroupFix.image.tag | string | `"latest@sha256:96ab1600d945b4a99c8610b5c8b31e346da63dc20573a26bb0777dd0190db5d4"` | Overrides the image tag |
-| spire-agent.fsGroupFix.image.version | string | `""` | This value is deprecated in favor of tag. (Will be removed in a future release) |
-| spire-agent.fsGroupFix.resources | object | `{}` | Specify resource needs as per https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ |
-| spire-agent.fullnameOverride | string | `""` |  |
-| spire-agent.healthChecks.port | int | `9980` | override the host port used for health checking |
-| spire-agent.hostAliases | list | `[]` | Customize /etc/hosts file as described here https://kubernetes.io/docs/tasks/network/customize-hosts-file-for-pods/ |
-| spire-agent.image.pullPolicy | string | `"IfNotPresent"` | The image pull policy |
-| spire-agent.image.registry | string | `"ghcr.io"` | The OCI registry to pull the image from |
-| spire-agent.image.repository | string | `"spiffe/spire-agent"` | The repository within the registry |
-| spire-agent.image.tag | string | `""` | Overrides the image tag whose default is the chart appVersion. |
-| spire-agent.image.version | string | `""` | This value is deprecated in favor of tag. (Will be removed in a future release) |
-| spire-agent.imagePullSecrets | list | `[]` |  |
-| spire-agent.initContainers | list | `[]` |  |
-| spire-agent.livenessProbe.initialDelaySeconds | int | `15` | Initial delay seconds for livenessProbe |
-| spire-agent.livenessProbe.periodSeconds | int | `60` | Period seconds for livenessProbe |
-| spire-agent.logLevel | string | `"info"` | The log level, valid values are "debug", "info", "warn", and "error" |
-| spire-agent.nameOverride | string | `""` |  |
-| spire-agent.namespaceOverride | string | `""` |  |
-| spire-agent.nodeSelector | object | `{}` |  |
-| spire-agent.podAnnotations | object | `{}` |  |
-| spire-agent.podSecurityContext | object | `{}` |  |
-| spire-agent.priorityClassName | string | `""` | Priority class assigned to daemonset pods |
-| spire-agent.readinessProbe.initialDelaySeconds | int | `15` | Initial delay seconds for readinessProbe |
-| spire-agent.readinessProbe.periodSeconds | int | `60` | Period seconds for readinessProbe |
-| spire-agent.resources | object | `{}` |  |
-| spire-agent.securityContext | object | `{}` |  |
-| spire-agent.server.address | string | `""` |  |
-| spire-agent.server.namespaceOverride | string | `""` |  |
-| spire-agent.server.port | int | `8081` |  |
-| spire-agent.serviceAccount.annotations | object | `{}` | Annotations to add to the service account |
-| spire-agent.serviceAccount.create | bool | `true` | Specifies whether a service account should be created |
-| spire-agent.serviceAccount.name | string | `""` | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
-| spire-agent.socketPath | string | `"/run/spire/agent-sockets/spire-agent.sock"` | The unix socket path to the spire-agent |
-| spire-agent.telemetry.prometheus.enabled | bool | `false` |  |
-| spire-agent.telemetry.prometheus.podMonitor.enabled | bool | `false` |  |
-| spire-agent.telemetry.prometheus.podMonitor.labels | object | `{}` |  |
-| spire-agent.telemetry.prometheus.podMonitor.namespace | string | `""` | Override where to install the podMonitor, if not set will use the same namespace as the spire-agent |
-| spire-agent.telemetry.prometheus.port | int | `9988` |  |
-| spire-agent.tolerations | list | `[]` |  |
-| spire-agent.trustBundleFormat | string | `"pem"` | If using trustBundleURL, what format is the url. Choices are "pem" and "spiffe" |
-| spire-agent.trustBundleURL | string | `""` | If set, obtain trust bundle from url instead of Kubernetes ConfigMap |
-| spire-agent.trustDomain | string | `"example.org"` | The trust domain to be used for the SPIFFE identifiers |
-| spire-agent.waitForIt.image.pullPolicy | string | `"IfNotPresent"` | The image pull policy |
-| spire-agent.waitForIt.image.registry | string | `"cgr.dev"` | The OCI registry to pull the image from |
-| spire-agent.waitForIt.image.repository | string | `"chainguard/wait-for-it"` | The repository within the registry |
-| spire-agent.waitForIt.image.tag | string | `"latest@sha256:deeaccb164a67a4d7f585c4d416641b1f422c029911a29d72beae28221f823df"` | Overrides the image tag |
-| spire-agent.waitForIt.image.version | string | `""` | This value is deprecated in favor of tag. (Will be removed in a future release) |
-| spire-agent.waitForIt.resources | object | `{}` |  |
-| spire-agent.workloadAttestors.k8s.disableContainerSelectors | bool | `false` | Set to true if using holdApplicationUntilProxyStarts in Istio |
-| spire-agent.workloadAttestors.k8s.skipKubeletVerification | bool | `true` | If true, kubelet certificate verification is skipped |
-| spire-agent.workloadAttestors.unix.enabled | bool | `false` | enables the Unix workload attestor |
-| spire-server.affinity | object | `{}` |  |
-| spire-server.autoscaling.enabled | bool | `false` |  |
-| spire-server.autoscaling.maxReplicas | int | `100` |  |
-| spire-server.autoscaling.minReplicas | int | `1` |  |
-| spire-server.autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
-| spire-server.bundleConfigMap | string | `"spire-bundle"` |  |
-| spire-server.caKeyType | string | `"rsa-2048"` | The CA key type to use, possible values are rsa-2048, rsa-4096, ec-p256, ec-p384 (AWS requires the use of RSA.  EC cryptography is not supported) |
-| spire-server.caTTL | string | `"24h"` |  |
-| spire-server.ca_subject.common_name | string | `"example.org"` |  |
-| spire-server.ca_subject.country | string | `"NL"` |  |
-| spire-server.ca_subject.organization | string | `"Example"` |  |
-| spire-server.clusterDomain | string | `"cluster.local"` |  |
-| spire-server.clusterName | string | `"example-cluster"` |  |
-| spire-server.configMap.annotations | object | `{}` | Annotations to add to the SPIRE Server ConfigMap |
-| spire-server.controllerManager.configMap.annotations | object | `{}` | Annotations to add to the Controller Manager ConfigMap |
-| spire-server.controllerManager.deleteHook.enabled | bool | `true` | Enable Helm hook to autofix common delete issues (should be disabled when using `helm template`) |
-| spire-server.controllerManager.enabled | bool | `false` |  |
-| spire-server.controllerManager.identities.dnsNameTemplates | list | `[]` |  |
-| spire-server.controllerManager.identities.enabled | bool | `true` |  |
-| spire-server.controllerManager.identities.federatesWith | list | `[]` |  |
-| spire-server.controllerManager.identities.namespaceSelector | object | `{}` |  |
-| spire-server.controllerManager.identities.podSelector | object | `{}` |  |
-| spire-server.controllerManager.identities.spiffeIDTemplate | string | `"spiffe://{{ .TrustDomain }}/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}"` |  |
-| spire-server.controllerManager.ignoreNamespaces[0] | string | `"kube-system"` |  |
-| spire-server.controllerManager.ignoreNamespaces[1] | string | `"kube-public"` |  |
-| spire-server.controllerManager.ignoreNamespaces[2] | string | `"local-path-storage"` |  |
-| spire-server.controllerManager.image.pullPolicy | string | `"IfNotPresent"` | The image pull policy |
-| spire-server.controllerManager.image.registry | string | `"ghcr.io"` | The OCI registry to pull the image from |
-| spire-server.controllerManager.image.repository | string | `"spiffe/spire-controller-manager"` | The repository within the registry |
-| spire-server.controllerManager.image.tag | string | `"0.2.3"` | Overrides the image tag |
-| spire-server.controllerManager.image.version | string | `""` | This value is deprecated in favor of tag. (Will be removed in a future release) |
-| spire-server.controllerManager.installAndUpgradeHook.enabled | bool | `true` | Enable Helm hook to autofix common install/upgrade issues (should be disabled when using `helm template`) |
-| spire-server.controllerManager.resources | object | `{}` |  |
-| spire-server.controllerManager.securityContext | object | `{}` |  |
-| spire-server.controllerManager.service.annotations | object | `{}` |  |
-| spire-server.controllerManager.service.port | int | `443` |  |
-| spire-server.controllerManager.service.type | string | `"ClusterIP"` |  |
-| spire-server.controllerManager.validatingWebhookConfiguration.failurePolicy | string | `"Fail"` |  |
-| spire-server.customPlugins.keyManager | object | `{}` |  |
-| spire-server.customPlugins.nodeAttestor | object | `{}` |  |
-| spire-server.customPlugins.notifier | object | `{}` |  |
-| spire-server.customPlugins.upstreamAuthority | object | `{}` |  |
-| spire-server.dataStore.sql.databaseName | string | `"spire"` | Only used by "postgres" or "mysql" |
-| spire-server.dataStore.sql.databaseType | string | `"sqlite3"` | Other supported databases are "postgres" and "mysql" |
-| spire-server.dataStore.sql.externalSecret | object | `{"enabled":false,"key":"","name":""}` | When an external source creates the secret. The secret should reside in the same namespace as the spire server |
-| spire-server.dataStore.sql.externalSecret.key | string | `""` | The key of the secret object whose value is the dataStore.sql password |
-| spire-server.dataStore.sql.externalSecret.name | string | `""` | The name of the secret object |
-| spire-server.dataStore.sql.host | string | `""` | Only used by "postgres" or "mysql" |
-| spire-server.dataStore.sql.options | list | `[]` | Only used by "postgres" or "mysql" |
-| spire-server.dataStore.sql.password | string | `""` | Only used by "postgres" or "mysql" |
-| spire-server.dataStore.sql.plugin_data | object | `{}` | Settings from https://github.com/spiffe/spire/blob/main/doc/plugin_server_datastore_sql.md go in this section |
-| spire-server.dataStore.sql.port | int | `0` | If 0 (default), it will auto set to 5432 for postgres and 3306 for mysql. Only used by those databases. |
-| spire-server.dataStore.sql.username | string | `"spire"` | Only used by "postgres" or "mysql" |
-| spire-server.defaultJwtSvidTTL | string | `"1h"` |  |
-| spire-server.defaultX509SvidTTL | string | `"4h"` |  |
-| spire-server.extraContainers | list | `[]` |  |
-| spire-server.extraVolumeMounts | list | `[]` |  |
-| spire-server.extraVolumes | list | `[]` |  |
-| spire-server.federation.bundleEndpoint.address | string | `"0.0.0.0"` |  |
-| spire-server.federation.bundleEndpoint.port | int | `8443` |  |
-| spire-server.federation.enabled | bool | `false` |  |
-| spire-server.federation.ingress.annotations | object | `{}` |  |
-| spire-server.federation.ingress.className | string | `""` |  |
-| spire-server.federation.ingress.enabled | bool | `false` |  |
-| spire-server.federation.ingress.hosts[0].host | string | `"spire-server-federation.example.org"` |  |
-| spire-server.federation.ingress.hosts[0].paths[0].path | string | `"/"` |  |
-| spire-server.federation.ingress.hosts[0].paths[0].pathType | string | `"Prefix"` |  |
-| spire-server.federation.ingress.tls | list | `[]` |  |
-| spire-server.fullnameOverride | string | `""` |  |
-| spire-server.image.pullPolicy | string | `"IfNotPresent"` | The image pull policy |
-| spire-server.image.registry | string | `"ghcr.io"` | The OCI registry to pull the image from |
-| spire-server.image.repository | string | `"spiffe/spire-server"` | The repository within the registry |
-| spire-server.image.tag | string | `""` | Overrides the image tag whose default is the chart appVersion. |
-| spire-server.image.version | string | `""` | This value is deprecated in favor of tag. (Will be removed in a future release) |
-| spire-server.imagePullSecrets | list | `[]` |  |
-| spire-server.ingress.annotations | object | `{}` |  |
-| spire-server.ingress.className | string | `""` |  |
-| spire-server.ingress.enabled | bool | `false` |  |
-| spire-server.ingress.hosts[0].host | string | `"spire-server.example.org"` |  |
-| spire-server.ingress.hosts[0].paths[0].path | string | `"/"` |  |
-| spire-server.ingress.hosts[0].paths[0].pathType | string | `"Prefix"` |  |
-| spire-server.ingress.tls | list | `[]` |  |
-| spire-server.initContainers | list | `[]` |  |
-| spire-server.jwtIssuer | string | `"https://oidc-discovery.example.org"` | The JWT issuer domain |
-| spire-server.keyManager.awsKMS.accessKeyID | Optional | `""` | Access key ID for the AWS account. It's recommended to use an IAM role instead. See [here](https://docs.aws.amazon.com/eks/latest/userguide/associate-service-account-role.html) to learn how to annotate your SPIRE Server Service Account to assume an IAM role. |
-| spire-server.keyManager.awsKMS.enabled | bool | `false` |  |
-| spire-server.keyManager.awsKMS.keyPolicy | object | `{"existingConfigMap":"","policy":""}` | Policy to use when creating keys. If no policy is specified, a default policy will be used. |
-| spire-server.keyManager.awsKMS.keyPolicy.existingConfigMap | Optional | `""` | Name of a ConfigMap that has a `policy.json` file with the key policy in JSON format. |
-| spire-server.keyManager.awsKMS.keyPolicy.policy | Optional | `""` | Key policy in JSON format. |
-| spire-server.keyManager.awsKMS.region | string | `""` |  |
-| spire-server.keyManager.awsKMS.secretAccessKey | Optional | `""` | Secret access key for the AWS account. |
-| spire-server.keyManager.disk.enabled | bool | `true` |  |
-| spire-server.keyManager.memory.enabled | bool | `false` |  |
-| spire-server.livenessProbe.failureThreshold | int | `2` | Failure threshold count for livenessProbe |
-| spire-server.livenessProbe.initialDelaySeconds | int | `15` | Initial delay seconds for livenessProbe |
-| spire-server.livenessProbe.periodSeconds | int | `60` | Period seconds for livenessProbe |
-| spire-server.livenessProbe.timeoutSeconds | int | `3` | Timeout in seconds for livenessProbe |
-| spire-server.logLevel | string | `"info"` | The log level, valid values are "debug", "info", "warn", and "error" |
-| spire-server.nameOverride | string | `""` |  |
-| spire-server.namespaceOverride | string | `""` |  |
-| spire-server.nodeAttestor.k8sPsat.enabled | bool | `true` |  |
-| spire-server.nodeAttestor.k8sPsat.serviceAccountAllowList | list | `[]` |  |
-| spire-server.nodeSelector | object | `{}` | Select specific nodes to run on (currently only amd64 is supported by Tornjak) |
-| spire-server.notifier.k8sbundle.namespace | string | `""` | Namespace to push the bundle into, if blank will default to SPIRE Server namespace |
-| spire-server.persistence.accessMode | string | `"ReadWriteOnce"` |  |
-| spire-server.persistence.hostPath | string | `""` | Which path to use on the host when type = hostPath |
-| spire-server.persistence.size | string | `"1Gi"` |  |
-| spire-server.persistence.storageClass | string | `nil` |  |
-| spire-server.persistence.type | string | `"pvc"` | What type of volume to use for persistence. Valid options pvc (recommended), hostPath, emptyDir (testing only) |
-| spire-server.podAnnotations | object | `{}` |  |
-| spire-server.podSecurityContext | object | `{}` |  |
-| spire-server.readinessProbe.initialDelaySeconds | int | `5` | Initial delay seconds for readinessProbe |
-| spire-server.readinessProbe.periodSeconds | int | `5` | Period seconds for readinessProbe |
-| spire-server.replicaCount | int | `1` | SPIRE server currently runs with a sqlite database. Scaling to multiple instances will not work until we use an external database. |
-| spire-server.resources | object | `{}` |  |
-| spire-server.securityContext | object | `{}` |  |
-| spire-server.service.annotations | object | `{}` |  |
-| spire-server.service.port | int | `8081` |  |
-| spire-server.service.type | string | `"ClusterIP"` |  |
-| spire-server.serviceAccount.annotations | object | `{}` | Annotations to add to the service account |
-| spire-server.serviceAccount.create | bool | `true` | Specifies whether a service account should be created |
-| spire-server.serviceAccount.name | string | `""` | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
-| spire-server.telemetry.prometheus.enabled | bool | `false` |  |
-| spire-server.telemetry.prometheus.podMonitor.enabled | bool | `false` |  |
-| spire-server.telemetry.prometheus.podMonitor.labels | object | `{}` |  |
-| spire-server.telemetry.prometheus.podMonitor.namespace | string | `""` | Override where to install the podMonitor, if not set will use the same namespace as the spire-server |
-| spire-server.tolerations | list | `[]` |  |
-| spire-server.tools.kubectl.image.pullPolicy | string | `"IfNotPresent"` | The image pull policy |
-| spire-server.tools.kubectl.image.registry | string | `"docker.io"` | The OCI registry to pull the image from |
-| spire-server.tools.kubectl.image.repository | string | `"rancher/kubectl"` | The repository within the registry |
-| spire-server.tools.kubectl.image.tag | string | `""` | Overrides the image tag |
-| spire-server.tools.kubectl.image.version | string | `""` | This value is deprecated in favor of tag. (Will be removed in a future release) |
-| spire-server.topologySpreadConstraints | list | `[]` |  |
-| spire-server.tornjak.config.clientCA.name | string | `"tornjak-client-ca"` |  |
-| spire-server.tornjak.config.clientCA.type | string | `"Secret"` | Type of delivery for the user CA for mTLS client verification options are `Secret` or `ConfigMap` (required for `mtls` connectionType) |
-| spire-server.tornjak.config.dataStore | object | `{"driver":"sqlite3","file":"/run/spire/data/tornjak.sqlite3"}` | Persistent DB for storing Tornjak specific information |
-| spire-server.tornjak.config.tlsSecret | string | `"tornjak-tls-secret"` | Name of the secret containing server side key and certificate for TLS verification (required for `tls` or `mtls` connectionType) |
-| spire-server.tornjak.enabled | bool | `false` | Deploys Tornjak API (backend) (Not for production) |
-| spire-server.tornjak.image.pullPolicy | string | `"IfNotPresent"` | The Tornjak image pull policy |
-| spire-server.tornjak.image.registry | string | `"ghcr.io"` | The OCI registry to pull the Tornjak image from |
-| spire-server.tornjak.image.repository | string | `"spiffe/tornjak-backend"` | The repository within the registry |
-| spire-server.tornjak.image.tag | string | `"v1.2.2"` | Overrides the image tag |
-| spire-server.tornjak.image.version | string | `""` | This value is deprecated in favor of tag. (Will be removed in a future release) |
-| spire-server.tornjak.resources | object | `{}` |  |
-| spire-server.tornjak.service.annotations | object | `{}` |  |
-| spire-server.tornjak.service.ports | object | `{"http":10000,"https":10443}` | Ports for tornjak |
-| spire-server.tornjak.service.type | string | `"ClusterIP"` |  |
-| spire-server.tornjak.startupProbe.failureThreshold | int | `3` |  |
-| spire-server.tornjak.startupProbe.initialDelaySeconds | int | `5` | Initial delay seconds for |
-| spire-server.tornjak.startupProbe.periodSeconds | int | `10` |  |
-| spire-server.tornjak.startupProbe.successThreshold | int | `1` |  |
-| spire-server.tornjak.startupProbe.timeoutSeconds | int | `5` |  |
-| spire-server.trustDomain | string | `"example.org"` | Set the trust domain to be used for the SPIFFE identifiers |
-| spire-server.upstreamAuthority.awsPCA.assumeRoleARN | Optional | `""` | ARN of an IAM role to assume |
-| spire-server.upstreamAuthority.awsPCA.caSigningTemplateARN | string | `""` | See Using Templates (https://docs.aws.amazon.com/acm-pca/latest/userguide/UsingTemplates.html) for possible values. |
-| spire-server.upstreamAuthority.awsPCA.certificateAuthorityARN | string | `""` | ARN of the "upstream" CA certificate |
-| spire-server.upstreamAuthority.awsPCA.enabled | bool | `false` |  |
-| spire-server.upstreamAuthority.awsPCA.endpoint | string | `""` | See AWS SDK Config docs (https://docs.aws.amazon.com/sdk-for-go/api/aws/#Config) for more information. |
-| spire-server.upstreamAuthority.awsPCA.region | string | `""` | AWS Region to use |
-| spire-server.upstreamAuthority.awsPCA.signingAlgorithm | string | `""` | See Issue Certificate (https://docs.aws.amazon.com/cli/latest/reference/acm-pca/issue-certificate.html) for possible values. |
-| spire-server.upstreamAuthority.awsPCA.supplementalBundlePath | Optional | `""` | Path to a file containing PEM-encoded CA certificates that should be additionally included in the bundle. |
-| spire-server.upstreamAuthority.certManager.ca.create | bool | `false` | Creates a Cert-Manager CA |
-| spire-server.upstreamAuthority.certManager.ca.duration | string | `"87600h"` | Duration of the CA. Defaults to 10 years. |
-| spire-server.upstreamAuthority.certManager.ca.privateKey.algorithm | string | `"ECDSA"` |  |
-| spire-server.upstreamAuthority.certManager.ca.privateKey.rotationPolicy | string | `""` |  |
-| spire-server.upstreamAuthority.certManager.ca.privateKey.size | int | `256` |  |
-| spire-server.upstreamAuthority.certManager.ca.renewBefore | string | `""` | How long to wait before renewing the CA |
-| spire-server.upstreamAuthority.certManager.enabled | bool | `false` |  |
-| spire-server.upstreamAuthority.certManager.issuer_group | string | `"cert-manager.io"` |  |
-| spire-server.upstreamAuthority.certManager.issuer_kind | string | `"Issuer"` |  |
-| spire-server.upstreamAuthority.certManager.issuer_name | string | `""` | Defaults to the release name, override if CA is provided outside of the chart |
-| spire-server.upstreamAuthority.certManager.kube_config_file | string | `""` |  |
-| spire-server.upstreamAuthority.certManager.namespace | string | `""` | Specify to use a namespace other then the one the chart is installed into |
-| spire-server.upstreamAuthority.certManager.rbac.create | bool | `true` |  |
-| spire-server.upstreamAuthority.disk.enabled | bool | `false` |  |
-| spire-server.upstreamAuthority.disk.secret.create | bool | `true` | If disabled requires you to create a secret with the given keys (certificate, key and optional bundle) yourself. |
-| spire-server.upstreamAuthority.disk.secret.data | object | `{"bundle":"","certificate":"","key":""}` | If secret creation is enabled, will create a secret with following certificate info |
-| spire-server.upstreamAuthority.disk.secret.name | string | `"spiffe-upstream-ca"` | If secret creation is disabled, the secret with this name will be used. |
-| spire-server.upstreamAuthority.spire.enabled | bool | `false` |  |
-| spire-server.upstreamAuthority.spire.server.address | string | `""` |  |
-| spire-server.upstreamAuthority.spire.server.port | int | `8081` |  |
-| spire-server.upstreamAuthority.spire.upstreamDriver | string | `""` |  |
-| tornjak-frontend.affinity | object | `{}` |  |
-| tornjak-frontend.apiServerURL | string | `"http://localhost:10000/"` | URL of the Tornjak APIs (backend) Since Tornjak Frontend runs in the browser, this URL must be accessible from the machine running a browser. |
-| tornjak-frontend.fullnameOverride | string | `""` |  |
-| tornjak-frontend.image.pullPolicy | string | `"IfNotPresent"` |  |
-| tornjak-frontend.image.registry | string | `"ghcr.io"` |  |
-| tornjak-frontend.image.repository | string | `"spiffe/tornjak-frontend"` |  |
-| tornjak-frontend.image.tag | string | `""` | Overrides the image tag whose default is the chart appVersion. |
-| tornjak-frontend.image.version | string | `""` | This value is deprecated in favor of tag. (Will be removed in a future release) |
-| tornjak-frontend.imagePullSecrets | list | `[]` |  |
-| tornjak-frontend.labels | object | `{}` |  |
-| tornjak-frontend.nameOverride | string | `""` |  |
-| tornjak-frontend.namespaceOverride | string | `""` |  |
-| tornjak-frontend.nodeSelector | object | `{"kubernetes.io/arch":"amd64"}` | Select specific nodes to run on (currently only amd64 is supported by Tornjak) |
-| tornjak-frontend.podSecurityContext | object | `{}` |  |
-| tornjak-frontend.securityContext | object | `{}` |  |
-| tornjak-frontend.service.annotations | object | `{}` |  |
-| tornjak-frontend.service.port | int | `3000` |  |
-| tornjak-frontend.service.type | string | `"ClusterIP"` |  |
-| tornjak-frontend.serviceAccount.annotations | object | `{}` | Annotations to add to the service account |
-| tornjak-frontend.serviceAccount.create | bool | `true` | Specifies whether a service account should be created |
-| tornjak-frontend.serviceAccount.name | string | `""` | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
-| tornjak-frontend.spireHealthCheck.enabled | bool | `true` | Enables the SPIRE Healthchecker indicator |
-| tornjak-frontend.startupProbe.enabled | bool | `true` | Enable startupProbe on Tornjak frontend container |
-| tornjak-frontend.startupProbe.failureThreshold | int | `6` | Failure threshold count for startupProbe |
-| tornjak-frontend.startupProbe.initialDelaySeconds | int | `5` | Initial delay seconds for startupProbe |
-| tornjak-frontend.startupProbe.periodSeconds | int | `10` | Period seconds for startupProbe |
-| tornjak-frontend.startupProbe.successThreshold | int | `1` | Success threshold count for startupProbe |
-| tornjak-frontend.startupProbe.timeoutSeconds | int | `5` | Timeout seconds for startupProbe |
-| tornjak-frontend.tolerations | list | `[]` |  |
-| tornjak-frontend.topologySpreadConstraints | list | `[]` |  |
-| upstream-spiffe-csi-driver.agentSocketPath | string | `"/run/spire/agent-sockets/spire-agent.sock"` | The unix socket path to the spire-agent |
-| upstream-spiffe-csi-driver.fullnameOverride | string | `""` |  |
-| upstream-spiffe-csi-driver.healthChecks.port | int | `9809` |  |
-| upstream-spiffe-csi-driver.image.pullPolicy | string | `"IfNotPresent"` | The image pull policy |
-| upstream-spiffe-csi-driver.image.registry | string | `"ghcr.io"` | The OCI registry to pull the image from |
-| upstream-spiffe-csi-driver.image.repository | string | `"spiffe/spiffe-csi-driver"` | The repository within the registry |
-| upstream-spiffe-csi-driver.image.tag | string | `""` | Overrides the image tag whose default is the chart appVersion |
-| upstream-spiffe-csi-driver.image.version | string | `""` | This value is deprecated in favor of tag. (Will be removed in a future release) |
-| upstream-spiffe-csi-driver.imagePullSecrets | list | `[]` |  |
-| upstream-spiffe-csi-driver.kubeletPath | string | `"/var/lib/kubelet"` |  |
-| upstream-spiffe-csi-driver.livenessProbe.initialDelaySeconds | int | `5` | Initial delay seconds for livenessProbe |
-| upstream-spiffe-csi-driver.livenessProbe.timeoutSeconds | int | `5` | Timeout value in seconds for livenessProbe |
-| upstream-spiffe-csi-driver.nameOverride | string | `""` |  |
-| upstream-spiffe-csi-driver.namespaceOverride | string | `""` |  |
-| upstream-spiffe-csi-driver.nodeDriverRegistrar.image.pullPolicy | string | `"IfNotPresent"` | The image pull policy |
-| upstream-spiffe-csi-driver.nodeDriverRegistrar.image.registry | string | `"registry.k8s.io"` | The OCI registry to pull the image from |
-| upstream-spiffe-csi-driver.nodeDriverRegistrar.image.repository | string | `"sig-storage/csi-node-driver-registrar"` | The repository within the registry |
-| upstream-spiffe-csi-driver.nodeDriverRegistrar.image.tag | string | `"v2.8.0"` | Overrides the image tag |
-| upstream-spiffe-csi-driver.nodeDriverRegistrar.image.version | string | `""` | This value is deprecated in favor of tag. (Will be removed in a future release) |
-| upstream-spiffe-csi-driver.nodeDriverRegistrar.resources | object | `{}` |  |
-| upstream-spiffe-csi-driver.nodeSelector | object | `{}` |  |
-| upstream-spiffe-csi-driver.pluginName | string | `"csi.spiffe.io"` | Set the csi driver name deployed to Kubernetes. |
-| upstream-spiffe-csi-driver.podAnnotations | object | `{}` |  |
-| upstream-spiffe-csi-driver.podSecurityContext | object | `{}` |  |
-| upstream-spiffe-csi-driver.priorityClassName | string | `""` | Priority class assigned to daemonset pods |
-| upstream-spiffe-csi-driver.resources | object | `{}` |  |
-| upstream-spiffe-csi-driver.securityContext.privileged | bool | `true` |  |
-| upstream-spiffe-csi-driver.securityContext.readOnlyRootFilesystem | bool | `true` |  |
-| upstream-spiffe-csi-driver.serviceAccount.annotations | object | `{}` | Annotations to add to the service account |
-| upstream-spiffe-csi-driver.serviceAccount.create | bool | `true` | Specifies whether a service account should be created |
-| upstream-spiffe-csi-driver.serviceAccount.name | string | `""` | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
-| upstream-spiffe-csi-driver.tolerations | list | `[]` |  |
-| upstream-spire-agent.bundleConfigMap | string | `"spire-bundle"` |  |
-| upstream-spire-agent.clusterName | string | `"example-cluster"` |  |
-| upstream-spire-agent.configMap.annotations | object | `{}` | Annotations to add to the SPIRE Agent ConfigMap |
-| upstream-spire-agent.extraContainers | list | `[]` |  |
-| upstream-spire-agent.extraVolumeMounts | list | `[]` |  |
-| upstream-spire-agent.extraVolumes | list | `[]` |  |
-| upstream-spire-agent.fsGroupFix.image.pullPolicy | string | `"Always"` | The image pull policy |
-| upstream-spire-agent.fsGroupFix.image.registry | string | `"cgr.dev"` | The OCI registry to pull the image from |
-| upstream-spire-agent.fsGroupFix.image.repository | string | `"chainguard/bash"` | The repository within the registry |
-| upstream-spire-agent.fsGroupFix.image.tag | string | `"latest@sha256:96ab1600d945b4a99c8610b5c8b31e346da63dc20573a26bb0777dd0190db5d4"` | Overrides the image tag |
-| upstream-spire-agent.fsGroupFix.image.version | string | `""` | This value is deprecated in favor of tag. (Will be removed in a future release) |
-| upstream-spire-agent.fsGroupFix.resources | object | `{}` | Specify resource needs as per https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ |
-| upstream-spire-agent.fullnameOverride | string | `""` |  |
-| upstream-spire-agent.healthChecks.port | int | `9980` | override the host port used for health checking |
-| upstream-spire-agent.hostAliases | list | `[]` | Customize /etc/hosts file as described here https://kubernetes.io/docs/tasks/network/customize-hosts-file-for-pods/ |
-| upstream-spire-agent.image.pullPolicy | string | `"IfNotPresent"` | The image pull policy |
-| upstream-spire-agent.image.registry | string | `"ghcr.io"` | The OCI registry to pull the image from |
-| upstream-spire-agent.image.repository | string | `"spiffe/spire-agent"` | The repository within the registry |
-| upstream-spire-agent.image.tag | string | `""` | Overrides the image tag whose default is the chart appVersion. |
-| upstream-spire-agent.image.version | string | `""` | This value is deprecated in favor of tag. (Will be removed in a future release) |
-| upstream-spire-agent.imagePullSecrets | list | `[]` |  |
-| upstream-spire-agent.initContainers | list | `[]` |  |
-| upstream-spire-agent.livenessProbe.initialDelaySeconds | int | `15` | Initial delay seconds for livenessProbe |
-| upstream-spire-agent.livenessProbe.periodSeconds | int | `60` | Period seconds for livenessProbe |
-| upstream-spire-agent.logLevel | string | `"info"` | The log level, valid values are "debug", "info", "warn", and "error" |
-| upstream-spire-agent.nameOverride | string | `""` |  |
-| upstream-spire-agent.namespaceOverride | string | `""` |  |
-| upstream-spire-agent.nodeSelector | object | `{}` |  |
-| upstream-spire-agent.podAnnotations | object | `{}` |  |
-| upstream-spire-agent.podSecurityContext | object | `{}` |  |
-| upstream-spire-agent.priorityClassName | string | `""` | Priority class assigned to daemonset pods |
-| upstream-spire-agent.readinessProbe.initialDelaySeconds | int | `15` | Initial delay seconds for readinessProbe |
-| upstream-spire-agent.readinessProbe.periodSeconds | int | `60` | Period seconds for readinessProbe |
-| upstream-spire-agent.resources | object | `{}` |  |
-| upstream-spire-agent.securityContext | object | `{}` |  |
-| upstream-spire-agent.server.address | string | `""` |  |
-| upstream-spire-agent.server.namespaceOverride | string | `""` |  |
-| upstream-spire-agent.server.port | int | `8081` |  |
-| upstream-spire-agent.serviceAccount.annotations | object | `{}` | Annotations to add to the service account |
-| upstream-spire-agent.serviceAccount.create | bool | `true` | Specifies whether a service account should be created |
-| upstream-spire-agent.serviceAccount.name | string | `""` | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
-| upstream-spire-agent.socketPath | string | `"/run/spire/agent-sockets/spire-agent.sock"` | The unix socket path to the spire-agent |
-| upstream-spire-agent.telemetry.prometheus.enabled | bool | `false` |  |
-| upstream-spire-agent.telemetry.prometheus.podMonitor.enabled | bool | `false` |  |
-| upstream-spire-agent.telemetry.prometheus.podMonitor.labels | object | `{}` |  |
-| upstream-spire-agent.telemetry.prometheus.podMonitor.namespace | string | `""` | Override where to install the podMonitor, if not set will use the same namespace as the spire-agent |
-| upstream-spire-agent.telemetry.prometheus.port | int | `9988` |  |
-| upstream-spire-agent.tolerations | list | `[]` |  |
-| upstream-spire-agent.trustBundleFormat | string | `"pem"` | If using trustBundleURL, what format is the url. Choices are "pem" and "spiffe" |
-| upstream-spire-agent.trustBundleURL | string | `""` | If set, obtain trust bundle from url instead of Kubernetes ConfigMap |
-| upstream-spire-agent.trustDomain | string | `"example.org"` | The trust domain to be used for the SPIFFE identifiers |
-| upstream-spire-agent.waitForIt.image.pullPolicy | string | `"IfNotPresent"` | The image pull policy |
-| upstream-spire-agent.waitForIt.image.registry | string | `"cgr.dev"` | The OCI registry to pull the image from |
-| upstream-spire-agent.waitForIt.image.repository | string | `"chainguard/wait-for-it"` | The repository within the registry |
-| upstream-spire-agent.waitForIt.image.tag | string | `"latest@sha256:deeaccb164a67a4d7f585c4d416641b1f422c029911a29d72beae28221f823df"` | Overrides the image tag |
-| upstream-spire-agent.waitForIt.image.version | string | `""` | This value is deprecated in favor of tag. (Will be removed in a future release) |
-| upstream-spire-agent.waitForIt.resources | object | `{}` |  |
-| upstream-spire-agent.workloadAttestors.k8s.disableContainerSelectors | bool | `false` | Set to true if using holdApplicationUntilProxyStarts in Istio |
-| upstream-spire-agent.workloadAttestors.k8s.skipKubeletVerification | bool | `true` | If true, kubelet certificate verification is skipped |
-| upstream-spire-agent.workloadAttestors.unix.enabled | bool | `false` | enables the Unix workload attestor |
+| Name               | Description                      | Value   |
+| ------------------ | -------------------------------- | ------- |
+| `upstream.enabled` | Flag for enabling upstream Spire | `false` |
+
+### Upstream SPIFFE CSI Driver parameters
+
+| Name                                                                | Description                                                 | Value                                                |
+| ------------------------------------------------------------------- | ----------------------------------------------------------- | ---------------------------------------------------- |
+| `upstream-spiffe-csi-driver.agentSocketPath`                        | The socket path where Spiffe CSI driver mounts agent socket | `/run/spire/agent-sockets-upstream/spire-agent.sock` |
+| `upstream-spiffe-csi-driver.nameOverride`                           | Override name for upstream SPIFFE CSI driver                | `""`                                                 |
+| `upstream-spiffe-csi-driver.namespaceOverride`                      | Override namespace for upstream SPIFFE CSI driver           | `""`                                                 |
+| `upstream-spiffe-csi-driver.fullnameOverride`                       | Override name for upstream SPIFFE CSI driver                | `""`                                                 |
+| `upstream-spiffe-csi-driver.kubeletPath`                            | Set the kubelet path for cluster                            | `/var/lib/kubelet`                                   |
+| `upstream-spiffe-csi-driver.pluginName`                             | Override plugin name                                        | `upstream.csi.spiffe.io`                             |
+| `upstream-spiffe-csi-driver.priorityClassName`                      | Priority class for upstream SPIFFE CSI driver pods          | `""`                                                 |
+| `upstream-spiffe-csi-driver.global.deleteHooks.enabled`             | Override flag for delete hooks                              | `true`                                               |
+| `upstream-spiffe-csi-driver.global.installAndUpgradeHooks.enabled`  | Override flag for install and upgrade hooks                 | `true`                                               |
+| `upstream-spiffe-csi-driver.global.k8s.clusterDomain`               | Domain for k8s cluster                                      | `cluster.local`                                      |
+| `upstream-spiffe-csi-driver.global.spire.upstreamServerAddress`     | Address for upstream Spire instance                         | `""`                                                 |
+| `upstream-spiffe-csi-driver.global.spire.bundleConfigMap`           | A configmap containing the Spire bundle                     | `""`                                                 |
+| `upstream-spiffe-csi-driver.global.spire.clusterName`               | The name of the k8s cluster for Spire install               | `example-cluster`                                    |
+| `upstream-spiffe-csi-driver.global.spire.image.registry`            | Image registry override                                     | `""`                                                 |
+| `upstream-spiffe-csi-driver.global.spire.jwtIssuer`                 | The issuer for Spire JWT tokens                             | `oidc-discovery.example.org`                         |
+| `upstream-spiffe-csi-driver.global.spire.trustDomain`               | The trust domain for Spire install                          | `example.org`                                        |
+| `upstream-spiffe-csi-driver.healthChecks.port`                      | Port for healthchecks of upstream SPIFFE CSI Driver         | `9810`                                               |
+| `upstream-spiffe-csi-driver.image.pullPolicy`                       | Image pull policy                                           | `IfNotPresent`                                       |
+| `upstream-spiffe-csi-driver.image.registry`                         | Registry for bash images                                    | `ghcr.io`                                            |
+| `upstream-spiffe-csi-driver.image.repository`                       | Repository for the bash image                               | `spiffe/spiffe-csi-driver`                           |
+| `upstream-spiffe-csi-driver.image.tag`                              | Tag for bash image                                          | `""`                                                 |
+| `upstream-spiffe-csi-driver.image.version`                          | App version for bash image                                  | `""`                                                 |
+| `upstream-spiffe-csi-driver.imagePullSecrets`                       | List of pull secrets for private                            | `[]`                                                 |
+| `upstream-spiffe-csi-driver.livenessProbe.initialDelaySeconds`      | Initial delay in seconds for pod liveness probe             | `5`                                                  |
+| `upstream-spiffe-csi-driver.livenessProbe.timeoutSeconds`           | Timeout in seconds for pod liveness probe                   | `5`                                                  |
+| `upstream-spiffe-csi-driver.nodeDriverRegistrar.image.pullPolicy`   | Image pull policy                                           | `IfNotPresent`                                       |
+| `upstream-spiffe-csi-driver.nodeDriverRegistrar.image.registry`     | Registry for bash images                                    | `registry.k8s.io`                                    |
+| `upstream-spiffe-csi-driver.nodeDriverRegistrar.image.repository`   | Repository for the bash image                               | `sig-storage/csi-node-driver-registrar`              |
+| `upstream-spiffe-csi-driver.nodeDriverRegistrar.image.tag`          | Tag for bash image                                          | `v2.8.0`                                             |
+| `upstream-spiffe-csi-driver.nodeDriverRegistrar.image.version`      | App version for bash image                                  | `""`                                                 |
+| `upstream-spiffe-csi-driver.nodeDriverRegistrar.resources`          | Resources request and limits for pods                       | `{}`                                                 |
+| `upstream-spiffe-csi-driver.nodeSelector`                           | Nodeselector details for upstream SPIFFE CSI driver         | `{}`                                                 |
+| `upstream-spiffe-csi-driver.podAnnotations`                         | Annotations to be added at a pod level                      | `{}`                                                 |
+| `upstream-spiffe-csi-driver.podSecurityContext`                     | Security contexts to be set at a container level            | `{}`                                                 |
+| `upstream-spiffe-csi-driver.resources`                              | Resources request and limits for pods                       | `{}`                                                 |
+| `upstream-spiffe-csi-driver.securityContext.privileged`             | Flag to set pod security context to privileged              | `true`                                               |
+| `upstream-spiffe-csi-driver.securityContext.readOnlyRootFilesystem` | Flag to set pod filesystem as readonly                      | `true`                                               |
+| `upstream-spiffe-csi-driver.serviceAccount.create`                  | Flag for service account creation                           | `true`                                               |
+| `upstream-spiffe-csi-driver.serviceAccount.name`                    | Name of service account for Spire server                    | `""`                                                 |
+| `upstream-spiffe-csi-driver.serviceAccount.annotations`             | Annotations to be added to service account                  | `{}`                                                 |
+| `upstream-spiffe-csi-driver.tolerations`                            | Specifies pod tolerations                                   | `[]`                                                 |
+
+### Upstream Spire agent parameters
+
+| Name                                                                   | Description                                                                       | Value                                                                            |
+| ---------------------------------------------------------------------- | --------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| `upstream-spire-agent.clusterName`                                     | Name of cluster for install                                                       | `example-cluster`                                                                |
+| `upstream-spire-agent.nameOverride`                                    | Override name                                                                     | `agent-upstream`                                                                 |
+| `upstream-spire-agent.namespaceOverride`                               | Override namespace                                                                | `""`                                                                             |
+| `upstream-spire-agent.fullnameOverride`                                | Override full-name                                                                | `""`                                                                             |
+| `upstream-spire-agent.logLevel`                                        | The log level, , valid values are "debug", "info", "warn", and "error"            | `info`                                                                           |
+| `upstream-spire-agent.trustBundleFormat`                               | If using trustBundleURL, what format is the url. Choices are "pem" and "spiffe"   | `pem`                                                                            |
+| `upstream-spire-agent.trustBundleURL`                                  | URL for trust bundle                                                              | `""`                                                                             |
+| `upstream-spire-agent.trustDomain`                                     | Trust domain for upstream Spire agent                                             | `example.org`                                                                    |
+| `upstream-spire-agent.bundleConfigMap`                                 | Config map name for upstream trust bundle                                         | `spire-bundle-upstream`                                                          |
+| `upstream-spire-agent.upstream`                                        | Flag to enable upstream agent for nested configuration                            | `true`                                                                           |
+| `upstream-spire-agent.socketPath`                                      | The socket path where upstream Spire agent mounts agent socket                    | `/run/spire/agent-sockets-upstream/spire-agent.sock`                             |
+| `upstream-spire-agent.priorityClassName`                               | Name of priority class for pods                                                   | `""`                                                                             |
+| `upstream-spire-agent.global.deleteHooks.enabled`                      | Override flag for delete hooks                                                    | `true`                                                                           |
+| `upstream-spire-agent.global.installAndUpgradeHooks.enabled`           | Override flag for install and upgrade hooks                                       | `true`                                                                           |
+| `upstream-spire-agent.global.k8s.clusterDomain`                        | Domain for k8s cluster                                                            | `cluster.local`                                                                  |
+| `upstream-spire-agent.global.spire.upstreamServerAddress`              | Address for upstream Spire instance                                               | `""`                                                                             |
+| `upstream-spire-agent.global.spire.bundleConfigMap`                    | A configmap containing the Spire bundle                                           | `""`                                                                             |
+| `upstream-spire-agent.global.spire.clusterName`                        | The name of the k8s cluster for Spire install                                     | `example-cluster`                                                                |
+| `upstream-spire-agent.global.spire.image.registry`                     | Image registry override                                                           | `""`                                                                             |
+| `upstream-spire-agent.global.spire.jwtIssuer`                          | The issuer for Spire JWT tokens                                                   | `oidc-discovery.example.org`                                                     |
+| `upstream-spire-agent.global.spire.trustDomain`                        | The trust domain for Spire install                                                | `example.org`                                                                    |
+| `upstream-spire-agent.healthChecks.port`                               | Port for healthchecks of upstream Spire agent                                     | `9981`                                                                           |
+| `upstream-spire-agent.hostAliases`                                     | List of host aliases for upstream Spire agent                                     | `[]`                                                                             |
+| `upstream-spire-agent.configMap.annotations`                           | Annotations for upstream Spire agent configmap                                    | `{}`                                                                             |
+| `upstream-spire-agent.initContainers`                                  | Init container definitions for upstream Spire agent pods                          | `[]`                                                                             |
+| `upstream-spire-agent.extraContainers`                                 | Additional container definitions to run alongside upstream Spire agent containers | `[]`                                                                             |
+| `upstream-spire-agent.extraVolumes`                                    | Additional volumes to attach to agent pods                                        | `[]`                                                                             |
+| `upstream-spire-agent.extraVolumeMounts`                               | Additional volume mounts for agent containers                                     | `[]`                                                                             |
+| `upstream-spire-agent.image.pullPolicy`                                | Image pull policy                                                                 | `IfNotPresent`                                                                   |
+| `upstream-spire-agent.image.registry`                                  | Registry for bash images                                                          | `ghcr.io`                                                                        |
+| `upstream-spire-agent.image.repository`                                | Repository for the bash image                                                     | `spiffe/spire-agent`                                                             |
+| `upstream-spire-agent.image.tag`                                       | Tag for bash image                                                                | `""`                                                                             |
+| `upstream-spire-agent.image.version`                                   | App version for bash image                                                        | `""`                                                                             |
+| `upstream-spire-agent.imagePullSecrets`                                | List of pull secrets for private registries                                       | `[]`                                                                             |
+| `upstream-spire-agent.resources`                                       | Resources request and limits for pods                                             | `{}`                                                                             |
+| `upstream-spire-agent.livenessProbe.initialDelaySeconds`               | Initial delay in seconds for pod liveness probe                                   | `15`                                                                             |
+| `upstream-spire-agent.livenessProbe.periodSeconds`                     | Health check period in seconds for pod liveness probe                             | `60`                                                                             |
+| `upstream-spire-agent.readinessProbe.initialDelaySeconds`              | Initial delay in seconds for pod readiness probe                                  | `15`                                                                             |
+| `upstream-spire-agent.readinessProbe.periodSeconds`                    | Health check period in seconds for pod readiness probe                            | `60`                                                                             |
+| `upstream-spire-agent.nodeSelector`                                    | Nodeselector details for upstream SPIFFE CSI driver                               | `{}`                                                                             |
+| `upstream-spire-agent.podAnnotations`                                  | Annotations to be added at a pod level                                            | `{}`                                                                             |
+| `upstream-spire-agent.podSecurityContext`                              | Security contexts to be set at a container level                                  | `{}`                                                                             |
+| `upstream-spire-agent.securityContext`                                 | Security contexts to be set at a pod level                                        | `{}`                                                                             |
+| `upstream-spire-agent.server.address`                                  | Address override for spire server                                                 | `""`                                                                             |
+| `upstream-spire-agent.server.namespaceOverride`                        | Namespace override for Spire server                                               | `""`                                                                             |
+| `upstream-spire-agent.server.port`                                     | Port for Spire server                                                             | `8081`                                                                           |
+| `upstream-spire-agent.serviceAccount.create`                           | Flag for service account creation                                                 | `true`                                                                           |
+| `upstream-spire-agent.serviceAccount.name`                             | Name of service account for Spire server                                          | `spire-agent-upstream`                                                           |
+| `upstream-spire-agent.serviceAccount.annotations`                      | Annotations to be added to service account                                        | `{}`                                                                             |
+| `upstream-spire-agent.telemetry.prometheus.enabled`                    | Flag to enable prometheus monitoring                                              | `false`                                                                          |
+| `upstream-spire-agent.telemetry.prometheus.port`                       | Port for metrics scraping                                                         | `9989`                                                                           |
+| `upstream-spire-agent.telemetry.prometheus.podMonitor.enabled`         | Flag for enabling podMonitor                                                      | `false`                                                                          |
+| `upstream-spire-agent.telemetry.prometheus.podMonitor.namespace`       | Namespace for podMonitor                                                          | `""`                                                                             |
+| `upstream-spire-agent.telemetry.prometheus.podMonitor.labels`          | Labels for podMonitor                                                             | `{}`                                                                             |
+| `upstream-spire-agent.tolerations`                                     | Specifies pod tolerations                                                         | `[]`                                                                             |
+| `upstream-spire-agent.fsGroupFix.image.pullPolicy`                     | Image pull policy                                                                 | `Always`                                                                         |
+| `upstream-spire-agent.fsGroupFix.image.registry`                       | Registry for bash images                                                          | `cgr.dev`                                                                        |
+| `upstream-spire-agent.fsGroupFix.image.repository`                     | Repository for the bash image                                                     | `chainguard/bash`                                                                |
+| `upstream-spire-agent.fsGroupFix.image.tag`                            | Tag for bash image                                                                | `latest@sha256:96ab1600d945b4a99c8610b5c8b31e346da63dc20573a26bb0777dd0190db5d4` |
+| `upstream-spire-agent.fsGroupFix.image.version`                        | App version for bash image                                                        | `""`                                                                             |
+| `upstream-spire-agent.fsGroupFix.resources`                            | Resources request and limits for pods                                             | `{}`                                                                             |
+| `upstream-spire-agent.waitForIt.image.pullPolicy`                      | Image pull policy                                                                 | `IfNotPresent`                                                                   |
+| `upstream-spire-agent.waitForIt.image.registry`                        | Registry for bash images                                                          | `cgr.dev`                                                                        |
+| `upstream-spire-agent.waitForIt.image.repository`                      | Repository for the bash image                                                     | `chainguard/wait-for-it`                                                         |
+| `upstream-spire-agent.waitForIt.image.tag`                             | Tag for bash image                                                                | `latest@sha256:deeaccb164a67a4d7f585c4d416641b1f422c029911a29d72beae28221f823df` |
+| `upstream-spire-agent.waitForIt.image.version`                         | App version for bash image                                                        | `""`                                                                             |
+| `upstream-spire-agent.waitForIt.resources`                             | Resources request and limits for pods                                             | `{}`                                                                             |
+| `upstream-spire-agent.workloadAttestors.k8s.disableContainerSelectors` | Configure k8s workload attestor to disable container selectors                    | `false`                                                                          |
+| `upstream-spire-agent.workloadAttestors.k8s.skipKubeletVerification`   | Configure k8s workload attestor to skip kubelet cert verification                 | `true`                                                                           |
+| `upstream-spire-agent.workloadAttestors.unix.enabled`                  | Flag to enable unix workload attestor                                             | `false`                                                                          |
+
