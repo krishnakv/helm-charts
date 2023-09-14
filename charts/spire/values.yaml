@@ -113,9 +113,11 @@ spire-server:
     identities:
       ## @param spire-server.controllerManager.identities.enabled Create a Spire server entry
       enabled: true
-      ## @param spire-server.controllerManager.identities.dnsNameTemplates DNS name teamplates for Spire server entry
+      ## @param spire-server.controllerManager.identities.dnsNameTemplates DNS name templates for Spire server entry
+      ## Example:
+      ## '{{ index .PodMeta.Labels "app.kubernetes.io/name" }}.{{ .PodMeta.Namespace }}.svc.cluster.local'
       dnsNameTemplates: []
-      ## @param spire-server.controllerManager.identities.federatesWith List of Spire servers for federation of entries
+      ## @param spire-server.controllerManager.identities.federatesWith Other Spire server URLs for identity federation
       federatesWith: []
       ## @param spire-server.controllerManager.identities.namespaceSelector Namespace selector for Spire server entry
       namespaceSelector: {}
@@ -124,6 +126,10 @@ spire-server:
       ## @param spire-server.controllerManager.identities.spiffeIDTemplate Template for SPIFFE ID
       spiffeIDTemplate: spiffe://{{ .TrustDomain }}/ns/{{ .PodMeta.Namespace }}/sa/{{
         .PodSpec.ServiceAccountName }}
+    ## @param spire-server.controllerManager.validatingWebhookConfiguration.failurePolicy Action when identity is not issued, can be "Ignore" or "Fail"
+    ## Ref: https://kubernetes.io/docs/reference/access-authn-authz/validating-admission-policy/#failure-policy
+    validatingWebhookConfiguration:
+      failurePolicy: Fail
     ## @param spire-server.controllerManager.ignoreNamespaces Namespaces List of namespaces to ignore for Spire server entry
     ignoreNamespaces:
     - kube-system
@@ -141,15 +147,18 @@ spire-server:
       repository: spiffe/spire-controller-manager
       tag: 0.2.3
       version: ""
-    ## @param spire-server.controllerManager.resources Resources request and limits for Spire controller manager
+    ## @param spire-server.controllerManager.resources [object] Resources request and limits for Spire controller manager
     ## ref: https://kubernetes.io/docs/user-guide/compute-resources/
+    ## We usually recommend not to specify default resources and to leave this as a conscious
+    ## choice for the user. This also increases chances charts run on environments with little
+    ## resources, such as Minikube. If you do want to specify resources, uncomment the following
+    ## lines, adjust them as necessary, and remove the curly braces after 'resources:'.
     ## Example:
-    ## resources:
-    ##   limits:
-    ##     memory: 512Mi
-    ##   requests:
-    ##     memory: 256Mi
-    ##     cpu: 250m
+    ## requests:
+    ##   cpu: 200m
+    ##   memory: 256Mi
+    ## limits:
+    ##   memory: 256Mi
     ##
     resources: {}
     ## @param spire-server.controllerManager.securityContext Security contexts to be set at a pod level
@@ -169,10 +178,6 @@ spire-server:
       annotations: {}
       port: 443
       type: ClusterIP
-    validatingWebhookConfiguration:
-      ## @param spire-server.controllerManager.validatingWebhookConfiguration.failurePolicy Failure policy can be "Ignore" or "Fail"
-      ## Ref: https://kubernetes.io/docs/reference/access-authn-authz/validating-admission-policy/#failure-policy
-      failurePolicy: Fail
   ## @param spire-server.affinity Node affinity for Spire server pods
   ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/#schedule-a-pod-using-required-node-affinity
   ## Example:
@@ -210,7 +215,7 @@ spire-server:
         key: ""
         ## @param spire-server.dataStore.sql.externalSecret.name The name of the secret
         name: ""
-      ## @param spire-server.dataStore.sql.host Hostname for datastore
+      ## @param spire-server.dataStore.sql.host Hostname for datastore, only used by "postgres" or "mysql"
       host: ""
       ## @param spire-server.dataStore.sql.port Port for datastore
       port: 0
@@ -220,8 +225,7 @@ spire-server:
       username: spire
       ## @param spire-server.dataStore.sql.password Password for datastore
       password: ""
-      ## @param spire-server.dataStore.sql.plugin_data Additional configuration for the datastore Spire server plugin
-      ## Ref: https://github.com/spiffe/spire/blob/v1.7.0/doc/plugin_server_datastore_sql.md
+      ## @param spire-server.dataStore.sql.plugin_data Settings from https://github.com/spiffe/spire/blob/main/doc/plugin_server_datastore_sql.md go in this section
       plugin_data: {}
   ## @param spire-server.initContainers Init container definitions for Spire server pods
   ## Ref: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
@@ -359,7 +363,7 @@ spire-server:
   readinessProbe:
     initialDelaySeconds: 5
     periodSeconds: 5
-  ## @param spire-server.nodeSelector Nodeselector details for Spire server pods
+  ## @param spire-server.nodeSelector [object] Select specific nodes to run on (currently only amd64 is supported by Tornjak)
   ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector
   ## Example:
   ## nodeSelector:
@@ -378,15 +382,18 @@ spire-server:
       ## @param spire-server.notifier.k8sbundle.namespace Namespace for notifier to push CA bundle
       ## Ref: https://github.com/spiffe/spire/blob/v1.7.0/doc/plugin_server_notifier_k8sbundle.md
       namespace: ""
+  ## @param spire-server.persistence.type What type of volume to use for persistence. Valid options pvc (recommended), hostPath, emptyDir (testing only)
+  ## @param spire-server.persistence.size What type of volume to use for persistence. Valid options pvc (recommended), hostPath, emptyDir (testing only)
+  ## @param spire-server.persistence.accessMode What type of volume to use for persistence. Valid options pvc (recommended), hostPath, emptyDir (testing only)
+  ## @param spire-server.persistence.storageClass What type of volume to use for persistence. Valid options pvc (recommended), hostPath, emptyDir (testing only)
+  ## @param spire-server.persistence.hostPath Which path to use on the host when type = hostPath
+  ##
   persistence:
-    ## @param spire-server.persistence.accessMode Access mode of underlying PV
-    accessMode: ReadWriteOnce
-    ## @param spire-server.persistence.hostPath Hostpath of the PV
-    hostPath: ""
-    ## @param spire-server.persistence.size Size of underlying PVC
-    size: 1Gi
-    ## @param spire-server.persistence.type Type of the volume
     type: pvc
+    size: 1Gi
+    accessMode: ReadWriteOnce
+    storageClass: null
+    hostPath: ""
   ## @param spire-server.podAnnotations Annotations to be added at a pod level
   ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
   ## Example:
@@ -531,6 +538,11 @@ spire-server:
         name: tornjak-client-ca
         ## @param spire-server.tornjak.config.clientCA.type Type of delivery for the user CA for TLS client verification. Options are `Secret` or `ConfigMap` (required for `mtls` connectionType)
         type: Secret
+      ## Tornjak supports 3 connection types: `http`, `tls`, and `mtls`.
+      ## The connections are determined based on provided configuration
+      ## When `tlsSecret` is created in this chart namespace, the TLS connection is started
+      ## When `tlsSecret` and `clientCA.tornjak-client-ca` are created in this chart namespace, the mTLS connection is started
+      ## When none of them are created, Tornjak starts with HTTP connection only
       ## @param spire-server.tornjak.config.tlsSecret Name of the secret containing server side key and certificate for TLS verification (required for `tls` or `mtls` connectionType)
       tlsSecret: tornjak-tls-secret
     ## @param spire-server.tornjak.image.pullPolicy Cluster pull policy
@@ -579,14 +591,14 @@ spire-server:
       timeoutSeconds: 5
       successThreshold: 1
       failureThreshold: 3
+  ## NOTE: This is unsupported and only to configure currently supported spire built in plugins but plugins unsupported by the chart.
+  ## Upgrades wont be tested for anything under this config. If you need this, please let the chart developers know your needs so we
+  ## can prioritize proper support.
+  ## @skip spire-server.unsupportedBuiltInPlugins
   unsupportedBuiltInPlugins:
-    ## @param spire-server.unsupportedBuiltInPlugins.keyManager [object] Configuration for key manager plugin
     keyManager: {}
-    ## @param spire-server.unsupportedBuiltInPlugins.nodeAttestor [object] Configuration for node attestor plugin
     nodeAttestor: {}
-    ## @param spire-server.unsupportedBuiltInPlugins.notifier [object] Configuration for notifier plugin
     notifier: {}
-    ## @param spire-server.unsupportedBuiltInPlugins.upstreamAuthority [object] Configuration for upstream authority plugin
     upstreamAuthority: {}
   upstreamAuthority:
     certManager:
@@ -685,14 +697,11 @@ spire-server:
     memory:
       ## @param spire-server.keyManager.memory.enabled Flag to enable keyManager in memory
       enabled: false
+  ## @skip spire-server.customPlugins
   customPlugins:
-    ## @param spire-server.customPlugins.keyManager [object] Configuration for key manager custom plugin
     keyManager: {}
-    ## @param spire-server.customPlugins.nodeAttestor [object] Configuration for node attestor custom plugin
     nodeAttestor: {}
-    ## @param spire-server.customPlugins.notifier [object] Configuration for notifier custom plugin
     notifier: {}
-    ## @param spire-server.customPlugins.upstreamAuthority [object] Configuration for upstream authority custom plugin
     upstreamAuthority: {}
 
 ## @section Spire agent parameters
